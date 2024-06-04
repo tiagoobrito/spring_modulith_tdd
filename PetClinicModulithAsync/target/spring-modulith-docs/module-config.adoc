@@ -1,0 +1,7 @@
+[%autowidth.stretch, cols="h,a"]
+|===
+|Base package
+|`org.springframework.samples.config`
+|Spring components
+|* `o.s.s.c.OpenAPIConfig`
+|===

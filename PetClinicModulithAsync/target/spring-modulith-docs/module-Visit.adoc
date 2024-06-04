@@ -1,0 +1,9 @@
+[%autowidth.stretch, cols="h,a"]
+|===
+|Base package
+|`org.springframework.samples.Visit`
+|Spring components
+|_Services_
+
+* `o.s.s.V.VisitExternalAPI` (via `o.s.s.V.service.VisitManagement`)
+|===

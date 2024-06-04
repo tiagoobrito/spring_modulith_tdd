@@ -1,0 +1,18 @@
+@startuml
+title Owner
+
+top to bottom direction
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Container_Boundary("PetClinicApplication.PetClinicApplication_boundary", "PetClinicApplication", $tags="") {
+  Component(PetClinicApplication.PetClinicApplication.Owner, "Owner", "Module", "", $tags="")
+  Component(PetClinicApplication.PetClinicApplication.Pet, "Pet", "Module", "", $tags="")
+}
+
+Rel_D(PetClinicApplication.PetClinicApplication.Owner, PetClinicApplication.PetClinicApplication.Pet, "listens to", $tags="")
+
+SHOW_LEGEND(true)
+@enduml
