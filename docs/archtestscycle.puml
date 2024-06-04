@@ -1,0 +1,24 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+
+package Owner{
+
+}
+
+package Visit{
+
+}
+
+package Pet{
+
+}
+
+package Vet{
+
+}
+
+Owner -[#green]> Pet
+Pet -[#green]> Visit
+
+@enduml

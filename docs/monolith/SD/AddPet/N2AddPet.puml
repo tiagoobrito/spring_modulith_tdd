@@ -1,0 +1,21 @@
+@startuml
+
+actor Employee
+participant "Controller" as Controller
+participant "Model" as Model
+participant "Repository" as Repository
+
+Employee -> Controller: POST /owners/{ownerId}/pets/new {pet}
+activate Controller
+Controller -> Controller: verify new pet data
+alt correct data
+Controller -> Model: addPet
+Model --> Controller: owner
+Controller -> Repository: save(owner)
+Controller --> Employee: return "redirect:/owners/{ownerId}"
+else incorrect data
+Controller --> Employee: error: invalid data
+end
+
+
+@enduml

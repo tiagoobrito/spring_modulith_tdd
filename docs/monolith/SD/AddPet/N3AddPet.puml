@@ -1,0 +1,21 @@
+@startuml
+
+actor Employee
+participant "controller: PetController" as Controller
+participant "repository: PetRepository" as Repository
+participant "model: Owner" as Owner
+
+
+Employee -> Controller: POST /owners/{ownerId}/pets/new {pet}
+
+activate Controller
+Controller -> Owner: owner.addPet(pet)
+activate Owner
+Owner --> Controller : owner
+deactivate Owner
+Controller -> Repository: save(owner)
+Controller --> Employee: success
+
+
+
+@enduml

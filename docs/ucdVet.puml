@@ -1,0 +1,13 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+left to right direction
+actor Employee as V
+
+package Vet{
+usecase UC7 as "Get Veterinarians"
+}
+
+V --> UC7
+
+@enduml

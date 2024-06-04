@@ -1,0 +1,59 @@
+@startuml
+
+hide circle
+hide methods
+
+class Owner {
+    - id: int
+    - firstName: String
+    - lastName: String
+    - address: String
+    - telephoneNumber: String
+    - city: String
+}
+
+class Pet {
+    - id: int
+    - name: String
+    - birthDate: LocalDate
+    - type_id: int
+    - owner_id: int
+}
+
+class Visit {
+    - id: int
+    - date: LocalDate
+    - description: String
+    - pet_id: int
+}
+
+class Vet{
+    -id: int
+    -firstName: String
+    -lastName:String
+}
+
+class Specialty {
+    -id: int
+    -name: String
+}
+
+class VetSpecialty{
+    -vetId: int
+    -specialityId: int
+}
+
+class PetType {
+    - id: int
+    - type: String
+}
+
+
+Owner "1" -- "0..*" Pet : < has
+Pet "1" -- "0..*" Visit : < of
+
+Pet "1" -right- "1..*" PetType: has >
+Vet "0..*" -down- "0..*" Specialty : has >
+(Vet, Specialty).VetSpecialty
+
+@enduml

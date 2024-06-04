@@ -1,0 +1,20 @@
+@startuml
+
+actor Employee
+participant "Pet" as Pet
+participant "ApplicationEventsPublisher" as AEP
+
+Employee -> Pet: POST /owners/{ownerId}/pets/new {pet}
+activate Pet
+Pet -> Pet: verify new pet data
+alt correct data
+Pet -> AEP: events.publish(AddPet)
+Pet -> Pet : save(pet)
+Pet --> Employee: return "redirect:/owners/{ownerId}"
+else incorrect data
+Pet --> Employee: error: invalid data
+end
+deactivate Pet
+
+
+@enduml

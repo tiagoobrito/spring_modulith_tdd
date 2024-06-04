@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+left to right direction
+actor Employee as V
+
+package Pet{
+usecase UC4 as "Add Pet"
+usecase UC5 as "Edit Pet"
+}
+
+V --> UC4
+V --> UC5
+@enduml

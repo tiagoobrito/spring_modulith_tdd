@@ -1,0 +1,38 @@
+@startuml
+
+
+component "Project"{
+    component "Owner"{
+    }
+    component "Pet"{
+    }
+    component "Visit"{
+    }
+    component "Vet"{
+    }
+}
+
+
+component "OwnerDB"
+component "PetDB"
+component "VisitDB"
+component "VetDB"
+
+
+"Owner" -up- PetClinicUI
+"Pet" -up- PetClinicUI
+"Visit" -up- PetClinicUI
+"Vet" -up- PetClinicUI
+
+"Owner" -down- "OwnerDB"
+"Pet" -down- "PetDB"
+"Visit" -down- "VisitDB"
+"Vet" -down- "VetDB"
+
+"Owner" -right- "Pet"
+"Pet" -right- "Visit"
+
+
+
+
+@enduml

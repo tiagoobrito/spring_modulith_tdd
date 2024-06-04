@@ -1,0 +1,22 @@
+@startuml
+
+actor Employee
+participant ":PetController" as Controller
+participant ":PetService" as Service
+participant ":PetRepository" as Repository
+participant ":ApplicationEventsPublisher" as Publisher
+
+
+Employee -> Controller: POST /owners/{ownerId}/pets/new {pet}
+activate Controller
+Controller -> Service: save(pet)
+activate Service
+Service -> Repository: save(pet)
+Service -> Publisher: events.publishEvent(new AddPetEvent(pet))
+Service --> Controller: success
+deactivate Service
+Controller --> Employee: success
+deactivate Controller
+
+
+@enduml

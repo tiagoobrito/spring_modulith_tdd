@@ -1,0 +1,22 @@
+@startuml
+
+actor Employee
+participant ":OwnerController" as Controller
+participant ":OwnerService" as Service
+participant ":OwnerRepository" as Repository
+
+Employee -> Controller: GET /owners/{ownerId}
+activate Controller
+Controller -> Service: findById(ownerId)
+activate Service
+Service -> Repository: findById(ownerId)
+activate Repository
+Repository --> Service: owner
+deactivate Repository
+Service --> Controller: owner
+deactivate Service
+Controller -> Employee: return "owners/ownerDetails"
+deactivate Controller
+
+
+@enduml

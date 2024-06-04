@@ -1,0 +1,17 @@
+@startuml
+
+actor Employee
+participant "Owner" as Owner
+
+Employee -> Owner: POST /owners/new {owner}
+activate Owner
+Owner -> Owner: verify new Owner data
+alt correct data
+Owner -> Owner: save(owner)
+Owner --> Employee: return "redirect:/owners/" + new_owner_id
+else incorrect data
+Owner --> Employee: error
+end
+
+
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+left to right direction
+actor Employee as V
+
+package Visit{
+usecase UC8 as "Add Visit"
+}
+
+V --> UC8
+@enduml

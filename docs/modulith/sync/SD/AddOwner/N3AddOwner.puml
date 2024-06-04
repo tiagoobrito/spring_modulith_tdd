@@ -1,0 +1,34 @@
+@startuml
+
+actor Employee
+participant ":OwnerController" as Controller
+participant ":OwnerService" as Service
+participant ":OwnerRepository" as Repository
+
+Employee -> Controller: POST /owners/new {owner}
+alt correct data
+activate Controller
+Controller -> Service: findById(id)
+activate Service
+Service -> Repository: findById(id)
+activate Repository
+Repository --> Service: owner
+deactivate Repository
+Service --> Controller: owner
+alt owner == null
+Controller -> Service: save(owner)
+Service -> Repository: save(owner)
+Service --> Controller: owner_id
+Controller --> Employee: return "redirect:/owners/owner_id"
+else owner != null
+Service --> Controller: owner != null
+deactivate Service
+Controller --> Employee: error: Owner already exists
+end
+else incorrect data
+Controller --> Employee: error
+deactivate Controller
+end
+
+
+@enduml
