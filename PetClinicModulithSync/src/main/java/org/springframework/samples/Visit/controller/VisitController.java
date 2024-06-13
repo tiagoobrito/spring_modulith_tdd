@@ -45,7 +45,7 @@ public class VisitController {
 
     @PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
     @Operation(summary = "Process New Visit Form")
-    public String processNewVisitForm(@PathVariable("petId") int petId, @Valid Visit visit, RedirectAttributes redirectAttributes, BindingResult result,ModelMap model) {
+    public String processNewVisitForm(@PathVariable("petId") int petId, @RequestBody @Valid Visit visit, RedirectAttributes redirectAttributes, BindingResult result,ModelMap model) {
 
         if (visit.getDescription().isBlank()){
             result.rejectValue("description","null", "não deve estar em branco");

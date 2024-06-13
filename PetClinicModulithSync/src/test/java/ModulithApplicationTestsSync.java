@@ -3,13 +3,12 @@ import org.springframework.modulith.core.ApplicationModules;
 import org.springframework.modulith.docs.Documenter;
 import org.springframework.samples.PetClinicApplicationSync;
 
-public class ModulithApplicationTests {
+public class ModulithApplicationTestsSync {
 
 	ApplicationModules modules = ApplicationModules.of(PetClinicApplicationSync.class);
 
 	@Test
 	void shouldBeCompliant() {
-		modules.forEach(System.out::println);
 		modules.verify();
 	}
 	@Test
