@@ -9,7 +9,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
-
 @Entity
 @Table(name = "visits")
 public class Visit extends BaseEntity {

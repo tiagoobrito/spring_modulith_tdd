@@ -5,7 +5,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotBlank;
 
-
 @MappedSuperclass
 public class Person extends BaseEntity {
 

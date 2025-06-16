@@ -5,7 +5,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-
 public class PetValidator implements Validator {
 
 	private static final String REQUIRED = "required";

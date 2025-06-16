@@ -4,7 +4,6 @@ package org.springframework.samples.petclinic.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 
-
 @MappedSuperclass
 public class NamedEntity extends BaseEntity {
 

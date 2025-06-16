@@ -1,9 +1,0 @@
-[%autowidth.stretch, cols="h,a"]
-|===
-|Base package
-|`org.springframework.samples.Vet`
-|Spring components
-|_Services_
-
-* `o.s.s.V.VetExternalAPI` (via `o.s.s.V.service.VetManagement`)
-|===

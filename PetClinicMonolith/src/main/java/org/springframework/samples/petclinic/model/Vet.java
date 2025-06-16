@@ -8,7 +8,6 @@ import org.springframework.beans.support.PropertyComparator;
 
 import java.util.*;
 
-
 @Entity
 @Table(name = "vets")
 public class Vet extends Person {

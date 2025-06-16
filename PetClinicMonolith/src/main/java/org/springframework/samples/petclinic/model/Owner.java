@@ -10,7 +10,6 @@ import org.springframework.util.Assert;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity
 @Table(name = "owners")
 public class Owner extends Person {

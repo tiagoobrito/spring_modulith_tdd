@@ -11,9 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
-
 public interface VetRepository extends Repository<Vet, Integer> {
-
 
 	@Transactional(readOnly = true)
 	@Cacheable("vets")

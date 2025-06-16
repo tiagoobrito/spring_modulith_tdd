@@ -33,7 +33,7 @@ public class VisitController {
 
 	@ModelAttribute("visit")
 	public Visit loadPetWithVisit(@PathVariable("ownerId") int ownerId, @PathVariable("petId") int petId,
-								  Map<String, Object> model) {
+			Map<String, Object> model) {
 		Owner owner = this.owners.findById(ownerId);
 
 		Pet pet = owner.getPet(petId);
@@ -54,7 +54,7 @@ public class VisitController {
 	@PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
 	@Operation(summary = "Process New Visit Form")
 	public String processNewVisitForm(@ModelAttribute Owner owner, @PathVariable int petId, @Valid Visit visit,
-									  BindingResult result, RedirectAttributes redirectAttributes) {
+			BindingResult result, RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			return "pets/createOrUpdateVisitForm";
 		}

@@ -49,7 +49,7 @@ public class PetController {
 
 	@ModelAttribute("pet")
 	public Pet findPet(@PathVariable("ownerId") int ownerId,
-					   @PathVariable(name = "petId", required = false) Integer petId) {
+			@PathVariable(name = "petId", required = false) Integer petId) {
 
 		if (petId == null) {
 			return new Pet();
@@ -83,8 +83,8 @@ public class PetController {
 
 	@PostMapping("/pets/new")
 	@Operation(summary = "Process Pet Creation Form")
-	public String processCreationForm(@PathVariable("ownerId") int ownerId , @Valid Pet pet, BindingResult result, ModelMap model,
-									  RedirectAttributes redirectAttributes) {
+	public String processCreationForm(@PathVariable("ownerId") int ownerId, @Valid Pet pet, BindingResult result,
+			ModelMap model, RedirectAttributes redirectAttributes) {
 
 		LocalDate currentDate = LocalDate.now();
 		if (pet.getBirthDate() != null && pet.getBirthDate().isAfter(currentDate)) {
@@ -107,7 +107,7 @@ public class PetController {
 	@GetMapping("/pets/{petId}/edit")
 	@Operation(summary = "Initiate Pet Update Form")
 	public String initUpdateForm(@PathVariable("ownerId") int ownerId, @PathVariable("petId") int petId, ModelMap model,
-								 RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) {
 		Owner owner = owners.findById(ownerId);
 		Pet pet = owner.getPet(petId);
 		model.put("pet", pet);
@@ -116,8 +116,8 @@ public class PetController {
 
 	@PostMapping("/pets/{petId}/edit")
 	@Operation(summary = "Process Pet Update Form")
-	public String processUpdateForm(@Valid Pet pet, BindingResult result, @PathVariable("ownerId") int ownerId, ModelMap model,
-									RedirectAttributes redirectAttributes) {
+	public String processUpdateForm(@Valid Pet pet, BindingResult result, @PathVariable("ownerId") int ownerId,
+			ModelMap model, RedirectAttributes redirectAttributes) {
 
 		Owner owner = owners.findById(ownerId);
 
@@ -135,7 +135,6 @@ public class PetController {
 		monoPet.setType(pet.getType());
 		monoPet.setBirthDate(pet.getBirthDate());
 		monoPet.setName(pet.getName());
-
 
 		owner.addPet(monoPet);
 		this.owners.save(owner);

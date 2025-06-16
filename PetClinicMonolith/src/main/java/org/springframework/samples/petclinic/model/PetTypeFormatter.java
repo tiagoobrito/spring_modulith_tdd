@@ -10,7 +10,6 @@ import java.text.ParseException;
 import java.util.Collection;
 import java.util.Locale;
 
-
 @Component
 public class PetTypeFormatter implements Formatter<PetType> {
 
