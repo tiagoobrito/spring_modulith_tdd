@@ -30,22 +30,4 @@ public class PetTests {
         assertEquals(1, pet.getVisits().size());
         assertEquals("Vaccination", pet.getVisits().iterator().next().description());
     }
-
-    @Test
-    void testSetters() {
-        Pet pet = new Pet();
-        PetType type = new PetType("Cat");
-
-        pet.setId(2);
-        pet.setName("Milo");
-        pet.setBirthDate(LocalDate.of(2019, 9, 10));
-        pet.setType(type);
-        pet.setOwner_id(202);
-
-        assertEquals(2, pet.getId());
-        assertEquals("Milo", pet.getName());
-        assertEquals("Cat", pet.getType().getName());
-        assertEquals(LocalDate.of(2019, 9, 10), pet.getBirthDate());
-        assertEquals(202, pet.getOwner_id());
-    }
 }

@@ -31,4 +31,29 @@ public class VetTests {
         verify(mockSurgery, atLeastOnce()).getName();
         verify(mockDermatology, atLeastOnce()).getName();
     }
+
+    @Test
+    void testAddSpecialty() {
+        Vet vet = new Vet();
+        vet.setFirstName("John");
+        vet.setLastName("Doe");
+
+        Specialty mockRadiology = mock(Specialty.class);
+
+        when(mockRadiology.getName()).thenReturn("Radiology");
+
+        vet.addSpecialty(mockRadiology);
+
+        assertEquals(1, vet.getNrOfSpecialties());
+        assertEquals("Radiology", vet.getSpecialties().get(0).getName());
+    }
+
+    @Test
+    void testIsNew() {
+        Vet vet = new Vet();
+        assertTrue(vet.isNew());
+
+        vet.setId(42);
+        assertFalse(vet.isNew());
+    }
 }
