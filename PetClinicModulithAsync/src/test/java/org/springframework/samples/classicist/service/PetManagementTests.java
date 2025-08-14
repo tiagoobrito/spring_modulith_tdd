@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.samples.Pet.model.Pet;
 import org.springframework.samples.Pet.model.PetType;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.samples.Pet.service.PetManagement;
 
 import java.time.LocalDate;

@@ -1,6 +1,5 @@
 package org.springframework.samples.classicist.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,8 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.Owner.model.Owner;
 import org.springframework.samples.Owner.service.OwnerManagement;
-import org.springframework.samples.Owner.service.OwnerPetRepository;
-import org.springframework.samples.Owner.service.OwnerRepository;
 
 import java.util.Optional;
 
