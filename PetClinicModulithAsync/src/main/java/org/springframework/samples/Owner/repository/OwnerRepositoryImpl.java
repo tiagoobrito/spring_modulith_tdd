@@ -22,6 +22,7 @@ import java.util.Optional;
 public class OwnerRepositoryImpl implements OwnerRepository {
 
 	private final JdbcClient jdbcClient;
+
 	private final DataSource dataSource; // Injeção do DataSource
 
 	public OwnerRepositoryImpl(@Qualifier("ownerJdbcClient") JdbcClient jdbcClient, DataSource dataSource) {
@@ -31,11 +32,7 @@ public class OwnerRepositoryImpl implements OwnerRepository {
 
 	@Override
 	public Owner findById(Integer id) {
-		return jdbcClient.sql("SELECT * FROM owners WHERE id = ?")
-				.param(id)
-				.query(Owner.class)
-				.optional()
-				.orElse(null);
+		return jdbcClient.sql("SELECT * FROM owners WHERE id = ?").param(id).query(Owner.class).optional().orElse(null);
 	}
 
 	@Override
@@ -43,57 +40,59 @@ public class OwnerRepositoryImpl implements OwnerRepository {
 
 		String sql = "SELECT * FROM owners WHERE last_name LIKE :lastName ";
 
-		List<Owner> owners = jdbcClient.sql(sql)
-				.param("lastName", lastName + "%")
-				.query(Owner.class)
-				.list();
+		List<Owner> owners = jdbcClient.sql(sql).param("lastName", lastName + "%").query(Owner.class).list();
 
 		int total = jdbcClient.sql("SELECT COUNT(*) FROM owners WHERE last_name LIKE :lastName")
-				.param("lastName", lastName + "%")
-				.query(Integer.class)
-				.single();
+			.param("lastName", lastName + "%")
+			.query(Integer.class)
+			.single();
 
 		return new PageImpl<>(owners, pageable, total);
 	}
-
 
 	@Override
 	public Owner save(Owner owner) {
 		if (owner.getId() == null) {
 			try (Connection connection = dataSource.getConnection()) {
-			String sql = "INSERT INTO owners (first_name, last_name, address, city, telephone) VALUES (?, ?, ?, ?, ?)";
-			PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-			statement.setString(1, owner.getFirstName());
-			statement.setString(2, owner.getLastName());
-			statement.setString(3, owner.getAddress());
-			statement.setString(4, owner.getCity());
-			statement.setString(5, owner.getTelephone());
+				String sql = "INSERT INTO owners (first_name, last_name, address, city, telephone) VALUES (?, ?, ?, ?, ?)";
+				PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+				statement.setString(1, owner.getFirstName());
+				statement.setString(2, owner.getLastName());
+				statement.setString(3, owner.getAddress());
+				statement.setString(4, owner.getCity());
+				statement.setString(5, owner.getTelephone());
 
-			statement.executeUpdate();
+				statement.executeUpdate();
 
-			ResultSet generatedKeys = statement.getGeneratedKeys();
-			if (generatedKeys.next()) {
-				Integer id = generatedKeys.getInt(1);
-				owner.setId(id);
-			} else {
-				throw new SQLException("Failed to get generated keys, no ID obtained.");
+				ResultSet generatedKeys = statement.getGeneratedKeys();
+				if (generatedKeys.next()) {
+					Integer id = generatedKeys.getInt(1);
+					owner.setId(id);
+				}
+				else {
+					throw new SQLException("Failed to get generated keys, no ID obtained.");
+				}
 			}
-			} catch (SQLException ex) {
+			catch (SQLException ex) {
 				ex.printStackTrace(); // Aqui você pode tratar o erro de forma apropriada
 			}
-        } else {
-			jdbcClient.sql("UPDATE owners SET first_name = ?, last_name = ?, address = ?, city = ?, telephone = ? WHERE id = ?")
-					.params(owner.getFirstName(), owner.getLastName(), owner.getAddress(), owner.getCity(), owner.getTelephone(), owner.getId())
-					.update();
-        }
-        return owner;
-    }
+		}
+		else {
+			jdbcClient.sql(
+					"UPDATE owners SET first_name = ?, last_name = ?, address = ?, city = ?, telephone = ? WHERE id = ?")
+				.params(owner.getFirstName(), owner.getLastName(), owner.getAddress(), owner.getCity(),
+						owner.getTelephone(), owner.getId())
+				.update();
+		}
+		return owner;
+	}
 
 	@Override
 	public Optional<Owner> findByName(String firstName, String lastName) {
 		return jdbcClient.sql("SELECT * FROM owners WHERE first_name = ? AND last_name = ?")
-				.params(firstName, lastName)
-				.query(Owner.class)
-				.optional();
+			.params(firstName, lastName)
+			.query(Owner.class)
+			.optional();
 	}
+
 }

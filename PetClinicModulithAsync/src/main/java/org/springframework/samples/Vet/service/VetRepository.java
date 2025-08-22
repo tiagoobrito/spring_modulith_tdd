@@ -10,11 +10,10 @@ import java.util.Optional;
 
 public interface VetRepository {
 
-    Collection<Vet> findAll() throws DataAccessException;
+	Collection<Vet> findAll() throws DataAccessException;
 
-    Page<Vet> findAll(Pageable pageable) throws DataAccessException;
+	Page<Vet> findAll(Pageable pageable) throws DataAccessException;
 
-    Optional<Vet> findById(Integer id);
+	Optional<Vet> findById(Integer id);
 
 }
-

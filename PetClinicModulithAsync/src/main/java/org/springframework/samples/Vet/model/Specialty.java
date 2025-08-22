@@ -4,11 +4,12 @@ package org.springframework.samples.Vet.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 
-
 @Getter
 public class Specialty {
 
 	private Integer id;
+
+	private String name;
 
 	public Specialty(String name) {
 		this.name = name;
@@ -25,8 +26,6 @@ public class Specialty {
 	public boolean isNew() {
 		return this.id == null;
 	}
-
-	private String name;
 
 	public void setName(String name) {
 		this.name = name;

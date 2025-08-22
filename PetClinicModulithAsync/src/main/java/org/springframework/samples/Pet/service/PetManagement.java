@@ -51,8 +51,9 @@ public class PetManagement implements PetExternalAPI {
 	}
 
 	@ApplicationModuleListener
-	void onNewVisitEvent(AddVisitEvent event) {
+	public void onNewVisitEvent(AddVisitEvent event) {
 		petRepository.save(new Pet.Visit(event.getId(), event.getDescription(), event.getDate(), event.getPet_id()));
 		events.publishEvent(new AddVisitPet(event.getId(), event.getDate(), event.getDescription(), event.getPet_id()));
 	}
+
 }

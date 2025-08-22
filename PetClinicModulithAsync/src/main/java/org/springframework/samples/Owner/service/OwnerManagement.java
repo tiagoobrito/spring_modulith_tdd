@@ -46,6 +46,7 @@ public class OwnerManagement implements OwnerExternalAPI {
 			existingOwner.setAddress(owner.getAddress());
 			existingOwner.setCity(owner.getCity());
 			existingOwner.setTelephone(owner.getTelephone());
+			existingOwner.setPets(owner.getPets());
 			repository.save(existingOwner);
 			return existingOwner.getId();
 
@@ -76,16 +77,16 @@ public class OwnerManagement implements OwnerExternalAPI {
 	}
 
 	@ApplicationModuleListener
-	void onNewPetEvent(SavePetEvent event) {
-		petRepository.save(event.isNew(), new OwnerPet(event.getId(), event.getName(), event.getBirthDate(), event.getOwner_id(),
-				event.getType()));
+	public void onNewPetEvent(SavePetEvent event) {
+		petRepository.save(event.isNew(), new OwnerPet(event.getId(), event.getName(), event.getBirthDate(),
+				event.getOwner_id(), event.getType()));
 
 	}
 
 	@ApplicationModuleListener
-	void onAddVisitPet(AddVisitPet event) {
-		petRepository.saveVisit(new OwnerPet.Visit(event.getId(),event.getDescription(),event.getDate(),event.getPet_id()));
+	public void onAddVisitPet(AddVisitPet event) {
+		petRepository
+			.saveVisit(new OwnerPet.Visit(event.getId(), event.getDescription(), event.getDate(), event.getPet_id()));
 	}
-
 
 }

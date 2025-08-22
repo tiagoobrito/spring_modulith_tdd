@@ -11,6 +11,7 @@ import java.util.List;
 
 @Getter
 public class Owner implements Serializable {
+
 	private Integer id;
 
 	@NotBlank

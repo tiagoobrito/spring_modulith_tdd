@@ -18,7 +18,8 @@ public class SavePetEvent {
 
 	private boolean isNew;
 
-	public SavePetEvent(Integer id, String name, LocalDate birthDate, Integer type_id, String type, Integer owner_id, boolean isNew) {
+	public SavePetEvent(Integer id, String name, LocalDate birthDate, Integer type_id, String type, Integer owner_id,
+			boolean isNew) {
 		this.id = id;
 		this.name = name;
 		this.birthDate = birthDate;
@@ -75,6 +76,7 @@ public class SavePetEvent {
 	public void setType_id(Integer type_id) {
 		this.type_id = type_id;
 	}
+
 	public boolean isNew() {
 		return isNew;
 	}
@@ -82,4 +84,5 @@ public class SavePetEvent {
 	public void setNew(boolean aNew) {
 		isNew = aNew;
 	}
+
 }

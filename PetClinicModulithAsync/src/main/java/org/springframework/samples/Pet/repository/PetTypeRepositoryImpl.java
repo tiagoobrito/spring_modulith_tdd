@@ -21,16 +21,12 @@ public class PetTypeRepositoryImpl implements PetTypeRepository {
 
 	@Override
 	public List<PetType> findPetTypes() {
-		return jdbcClient.sql("SELECT * FROM types ORDER BY name")
-				.query(PetType.class)
-				.list();
+		return jdbcClient.sql("SELECT * FROM types ORDER BY name").query(PetType.class).list();
 	}
 
 	@Override
 	public PetType findById(Integer id) {
-		return jdbcClient.sql("SELECT * FROM types WHERE id = ?")
-				.param(id)
-				.query(PetType.class)
-				.single();
+		return jdbcClient.sql("SELECT * FROM types WHERE id = ?").param(id).query(PetType.class).single();
 	}
+
 }

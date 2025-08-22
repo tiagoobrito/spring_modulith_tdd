@@ -55,8 +55,10 @@ public class OwnerController {
 
 	@PostMapping("/owners/new")
 	@Operation(summary = "Process Owner Creation Form")
-	public String processCreationForm(@Valid Owner owner, BindingResult result, RedirectAttributes redirectAttributes, ModelMap model) {
-		if (StringUtils.hasText(owner.getLastName())  && ownerExternalAPI.findByName(owner.getFirstName(), owner.getLastName()).isPresent()) {
+	public String processCreationForm(@Valid Owner owner, BindingResult result, RedirectAttributes redirectAttributes,
+			ModelMap model) {
+		if (StringUtils.hasText(owner.getLastName())
+				&& ownerExternalAPI.findByName(owner.getFirstName(), owner.getLastName()).isPresent()) {
 			result.rejectValue("firstName", "duplicate", "already exists");
 			result.rejectValue("lastName", "duplicate", "already exists");
 		}
@@ -105,8 +107,8 @@ public class OwnerController {
 
 	@PostMapping("/owners/{ownerId}/edit")
 	@Operation(summary = "Process Owner Update Form")
-	public String processUpdateOwnerForm(@Valid Owner owner, BindingResult result, @PathVariable("ownerId") int ownerId, RedirectAttributes redirectAttributes,
-										 ModelMap model) {
+	public String processUpdateOwnerForm(@Valid Owner owner, BindingResult result, @PathVariable("ownerId") int ownerId,
+			RedirectAttributes redirectAttributes, ModelMap model) {
 		if (result.hasErrors()) {
 			model.addAttribute("ownerMessage", "There was an error updating the owner.");
 			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;

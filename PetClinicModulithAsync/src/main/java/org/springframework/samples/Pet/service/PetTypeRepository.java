@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface PetTypeRepository {
 
-    List<PetType> findPetTypes();
+	List<PetType> findPetTypes();
 
-    PetType findById(Integer id);
+	PetType findById(Integer id);
+
 }

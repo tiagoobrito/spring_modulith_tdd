@@ -20,52 +20,48 @@ public class OwnerPetRepositoryImpl implements OwnerPetRepository {
 
 	@Override
 	public List<OwnerPet> findPetByOwnerId(Integer id) {
-		return jdbcClient.sql("SELECT * FROM owner_pets WHERE owner_id = ?")
-				.param(id)
-				.query(OwnerPet.class)
-				.list();
+		return jdbcClient.sql("SELECT * FROM owner_pets WHERE owner_id = ?").param(id).query(OwnerPet.class).list();
 	}
 
 	@Override
 	public OwnerPet findById(Integer id) {
-		return jdbcClient.sql("SELECT * FROM owner_pets WHERE id = ?")
-				.param(id)
-				.query(OwnerPet.class)
-				.single();
+		return jdbcClient.sql("SELECT * FROM owner_pets WHERE id = ?").param(id).query(OwnerPet.class).single();
 	}
 
 	@Override
 	public void save(boolean isNew, OwnerPet pet) {
 		if (isNew) {
 			jdbcClient.sql("INSERT INTO owner_pets (name, birth_date, owner_id, type_name) VALUES (?, ?, ?, ?)")
-					.params(pet.getName(), pet.getBirthDate(), pet.getOwner_id(), pet.getType_name())
-					.update();
-		} else {
+				.params(pet.getName(), pet.getBirthDate(), pet.getOwner_id(), pet.getType_name())
+				.update();
+		}
+		else {
 			jdbcClient.sql("UPDATE owner_pets SET name = ?, birth_date = ?, owner_id = ?, type_name = ? WHERE id = ?")
-					.params(pet.getName(), pet.getBirthDate(), pet.getOwner_id(), pet.getType_name(), pet.getId())
-					.update();
+				.params(pet.getName(), pet.getBirthDate(), pet.getOwner_id(), pet.getType_name(), pet.getId())
+				.update();
 		}
 	}
-
 
 	@Override
 	public void saveVisit(OwnerPet.Visit visit) {
 		if (visit.id() == null) {
 			jdbcClient.sql("INSERT INTO owner_visits (pet_id, visit_date, description) VALUES (?, ?, ?)")
-					.params(visit.pet_id(), visit.visit_date(), visit.description())
-					.update();
-		} else {
+				.params(visit.pet_id(), visit.visit_date(), visit.description())
+				.update();
+		}
+		else {
 			jdbcClient.sql("UPDATE owner_visits SET pet_id = ?, visit_date = ?, description = ? WHERE id = ?")
-					.params(visit.pet_id(), visit.visit_date(), visit.description(), visit.id())
-					.update();
+				.params(visit.pet_id(), visit.visit_date(), visit.description(), visit.id())
+				.update();
 		}
 	}
 
 	@Override
 	public Set<OwnerPet.Visit> findVisitByPetId(Integer id) {
 		return jdbcClient.sql("SELECT * FROM owner_visits WHERE pet_id = ?")
-				.param(id)
-				.query(OwnerPet.Visit.class)
-				.set();
+			.param(id)
+			.query(OwnerPet.Visit.class)
+			.set();
 	}
+
 }

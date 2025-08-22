@@ -17,25 +17,23 @@ public class PetClinicApplication {
 		SpringApplication.run(PetClinicApplication.class, args);
 	}
 
-
 	@Bean
-	JdbcClient ownerJdbcClient(@Qualifier("ownerDataSource") DataSource dataSource){
-		return JdbcClient.create(dataSource);
-	}
-
-
-	@Bean
-	JdbcClient petJdbcClient(@Qualifier("petDataSource") DataSource dataSource){
+	JdbcClient ownerJdbcClient(@Qualifier("ownerDataSource") DataSource dataSource) {
 		return JdbcClient.create(dataSource);
 	}
 
 	@Bean
-	JdbcClient vetJdbcClient(@Qualifier("vetDataSource") DataSource dataSource){
+	JdbcClient petJdbcClient(@Qualifier("petDataSource") DataSource dataSource) {
 		return JdbcClient.create(dataSource);
 	}
 
 	@Bean
-	JdbcClient visitJdbcClient(@Qualifier("visitDataSource") DataSource dataSource){
+	JdbcClient vetJdbcClient(@Qualifier("vetDataSource") DataSource dataSource) {
+		return JdbcClient.create(dataSource);
+	}
+
+	@Bean
+	JdbcClient visitJdbcClient(@Qualifier("visitDataSource") DataSource dataSource) {
 		return JdbcClient.create(dataSource);
 	}
 

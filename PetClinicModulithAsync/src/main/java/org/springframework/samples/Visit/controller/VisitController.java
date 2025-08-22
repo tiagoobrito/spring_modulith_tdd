@@ -50,11 +50,11 @@ public class VisitController {
 	@PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
 	@Operation(summary = "Process New Visit Form")
 	public String processNewVisitForm(@PathVariable("petId") int petId, @Valid Visit visit,
-									  RedirectAttributes redirectAttributes, BindingResult result) {
-		if(visit.getDescription().isBlank()){
+			RedirectAttributes redirectAttributes, BindingResult result) {
+		if (visit.getDescription().isBlank()) {
 			result.rejectValue("description", "null", "não deve estar em branco");
 		}
-		if (result.hasErrors()){
+		if (result.hasErrors()) {
 			return "pets/createOrUpdateVisitForm";
 		}
 		visit.setPet_id(petId);

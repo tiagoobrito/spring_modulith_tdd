@@ -15,7 +15,6 @@ import org.springframework.samples.Vet.service.VetRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,7 +39,7 @@ public class VetRepositoryImpl implements VetRepository {
 	@Override
 	public Optional<Vet> findById(Integer id) throws DataAccessException {
 		String selectVetQuery = "SELECT * FROM vets WHERE id = ?";
-		Vet vet = jdbcTemplate.queryForObject(selectVetQuery, new Object[]{id}, new VetRowMapper());
+		Vet vet = jdbcTemplate.queryForObject(selectVetQuery, new Object[] { id }, new VetRowMapper());
 
 		if (vet != null) {
 			vet.setSpecialties(findSpecialtiesByVetId(vet.getId()));
@@ -55,7 +54,8 @@ public class VetRepositoryImpl implements VetRepository {
 		int total = jdbcTemplate.queryForObject(countQuery, Integer.class);
 
 		String selectVetsQuery = "SELECT * FROM vets LIMIT ? OFFSET ?";
-		List<Vet> vets = jdbcTemplate.query(selectVetsQuery, new Object[]{pageable.getPageSize(), pageable.getOffset()}, new VetRowMapper());
+		List<Vet> vets = jdbcTemplate.query(selectVetsQuery,
+				new Object[] { pageable.getPageSize(), pageable.getOffset() }, new VetRowMapper());
 
 		for (Vet vet : vets) {
 			vet.setSpecialties(findSpecialtiesByVetId(vet.getId()));
@@ -66,10 +66,12 @@ public class VetRepositoryImpl implements VetRepository {
 
 	private Set<Specialty> findSpecialtiesByVetId(Integer vetId) {
 		String selectSpecialtiesQuery = "SELECT s.id, s.name FROM specialties s JOIN vet_specialties vs ON s.id = vs.specialty_id WHERE vs.vet_id = ?";
-		return new HashSet<>(jdbcTemplate.query(selectSpecialtiesQuery, new Object[]{vetId}, new SpecialtyRowMapper()));
+		return new HashSet<>(
+				jdbcTemplate.query(selectSpecialtiesQuery, new Object[] { vetId }, new SpecialtyRowMapper()));
 	}
 
 	private static class VetRowMapper implements RowMapper<Vet> {
+
 		@Override
 		public Vet mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Vet vet = new Vet();
@@ -79,9 +81,11 @@ public class VetRepositoryImpl implements VetRepository {
 			// Mapear outras propriedades, se necessário
 			return vet;
 		}
+
 	}
 
 	private static class SpecialtyRowMapper implements RowMapper<Specialty> {
+
 		@Override
 		public Specialty mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Specialty specialty = new Specialty();
@@ -89,5 +93,7 @@ public class VetRepositoryImpl implements VetRepository {
 			specialty.setName(rs.getString("name"));
 			return specialty;
 		}
+
 	}
+
 }

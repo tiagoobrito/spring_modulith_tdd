@@ -41,7 +41,7 @@ public class OpenAPIConfig {
 	private License swaggerLicense() {
 		License petClinicLicense = new License();
 		petClinicLicense.setName("Apache 2.0");
-		petClinicLicense.setUrl("http://www.apache.org/licenses/LICENSE-2.0");
+		petClinicLicense.setUrl("https://www.apache.org/licenses/LICENSE-2.0");
 		petClinicLicense.setExtensions(Collections.emptyMap());
 		return petClinicLicense;
 	}

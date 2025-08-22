@@ -26,7 +26,6 @@ public class Vet implements Serializable {
 
 	}
 
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -37,14 +36,11 @@ public class Vet implements Serializable {
 
 	private String firstName;
 
-
 	private String lastName;
-
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
@@ -53,7 +49,6 @@ public class Vet implements Serializable {
 	public void setSpecialties(Set<Specialty> specialties) {
 		this.specialties = specialties;
 	}
-
 
 	private Set<Specialty> specialties;
 

@@ -20,46 +20,39 @@ public class PetRepositoryImpl implements PetRepository {
 
 	@Override
 	public List<Pet> findPetByOwnerId(Integer id) {
-		return jdbcClient.sql("SELECT * FROM pets WHERE owner_id = ?")
-				.param(id)
-				.query(Pet.class)
-				.list();
+		return jdbcClient.sql("SELECT * FROM pets WHERE owner_id = ?").param(id).query(Pet.class).list();
 	}
 
 	@Override
 	public Optional<Pet> findPetByName(String name) {
-		return jdbcClient.sql("SELECT * FROM pets WHERE name = ?")
-				.param(name)
-				.query(Pet.class)
-				.optional();
+		return jdbcClient.sql("SELECT * FROM pets WHERE name = ?").param(name).query(Pet.class).optional();
 	}
 
 	@Override
 	public Pet findById(Integer id) {
-		return jdbcClient.sql("SELECT * FROM pets WHERE id = ?")
-				.param(id)
-				.query(Pet.class)
-				.single();
+		return jdbcClient.sql("SELECT * FROM pets WHERE id = ?").param(id).query(Pet.class).single();
 	}
 
 	@Override
 	public void save(Pet pet, boolean isNew) {
 		if (isNew) {
 			jdbcClient.sql("INSERT INTO pets (name, owner_id, type_id,birth_date ) VALUES (?, ?, ?, ?)")
-					.params(pet.getName(), pet.getOwner_id(), pet.getType().getId(), pet.getBirthDate())
-					.update();
-		} else {
+				.params(pet.getName(), pet.getOwner_id(), pet.getType().getId(), pet.getBirthDate())
+				.update();
+		}
+		else {
 			jdbcClient.sql("UPDATE pets SET name = ?, owner_id = ?, type_id = ?, birth_date = ? WHERE id = ?")
-					.params(pet.getName(), pet.getOwner_id(), pet.getType().getId(), pet.getBirthDate(), pet.getId())
-					.update();
+				.params(pet.getName(), pet.getOwner_id(), pet.getType().getId(), pet.getBirthDate(), pet.getId())
+				.update();
 		}
 	}
 
 	@Override
 	public void save(Pet.Visit petVisit) {
 		jdbcClient.sql("INSERT INTO pet_visit (pet_id, visit_date, description) VALUES (?, ?, ?)")
-				.params(petVisit.pet_id(), petVisit.visit_date(), petVisit.description())
-				.update();
+			.params(petVisit.pet_id(), petVisit.visit_date(), petVisit.description())
+			.update();
 
 	}
+
 }

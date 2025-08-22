@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-
 @Getter
 public class Pet {
 
@@ -40,8 +39,8 @@ public class Pet {
 	public Pet() {
 	}
 
-	public record Visit (Integer id, String description, LocalDate visit_date, Integer pet_id) implements ValueObject {}
-
+	public record Visit(Integer id, String description, LocalDate visit_date, Integer pet_id) implements ValueObject {
+	}
 
 	public void setId(Integer id) {
 		this.id = id;

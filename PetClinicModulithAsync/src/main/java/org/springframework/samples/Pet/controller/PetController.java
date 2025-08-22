@@ -59,8 +59,8 @@ public class PetController {
 
 	@PostMapping("/pets/new")
 	@Operation(summary = "Process Pet Creation Form")
-	public String processCreationForm(@PathVariable("ownerId") int ownerId, @Valid Pet pet, BindingResult result, ModelMap model,
-									  RedirectAttributes redirectAttributes) {
+	public String processCreationForm(@PathVariable("ownerId") int ownerId, @Valid Pet pet, BindingResult result,
+			ModelMap model, RedirectAttributes redirectAttributes) {
 
 		LocalDate currentDate = LocalDate.now();
 		if (pet.getBirthDate() == null || pet.getBirthDate().isAfter(currentDate)) {
@@ -90,9 +90,8 @@ public class PetController {
 
 	@PostMapping("/pets/{petId}/edit")
 	@Operation(summary = "Process Pet Update Form")
-	public String processUpdateForm(@PathVariable("ownerId") int ownerId,@Valid Pet pet, BindingResult result,ModelMap model,
-									RedirectAttributes redirectAttributes) {
-
+	public String processUpdateForm(@PathVariable("ownerId") int ownerId, @Valid Pet pet, BindingResult result,
+			ModelMap model, RedirectAttributes redirectAttributes) {
 
 		if (pet.getBirthDate() != null && pet.getBirthDate().isAfter(LocalDate.now())) {
 			result.rejectValue("birthDate", "typeMismatch.birthDate");

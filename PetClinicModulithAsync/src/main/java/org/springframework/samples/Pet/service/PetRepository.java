@@ -6,14 +6,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PetRepository {
-    List<Pet> findPetByOwnerId(Integer id);
 
-    Optional<Pet> findPetByName(String name);
+	List<Pet> findPetByOwnerId(Integer id);
 
-    Pet findById(Integer id);
+	Optional<Pet> findPetByName(String name);
 
-    void save(Pet pet, boolean isNew);
+	Pet findById(Integer id);
 
-    void save(Pet.Visit petVisit);
+	void save(Pet pet, boolean isNew);
+
+	void save(Pet.Visit petVisit);
 
 }

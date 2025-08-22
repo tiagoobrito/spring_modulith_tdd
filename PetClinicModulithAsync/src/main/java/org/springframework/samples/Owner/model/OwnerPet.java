@@ -41,8 +41,8 @@ public class OwnerPet {
 
 	}
 
-	public record Visit (Integer id, String description, LocalDate visit_date, Integer pet_id) implements ValueObject{}
-
+	public record Visit(Integer id, String description, LocalDate visit_date, Integer pet_id) implements ValueObject {
+	}
 
 	public void setId(Integer id) {
 		this.id = id;
@@ -63,6 +63,7 @@ public class OwnerPet {
 	public void setType_name(String type_name) {
 		this.type_name = type_name;
 	}
+
 	public void setVisits(Set<Visit> visits) {
 		this.visits = visits;
 	}
@@ -71,4 +72,5 @@ public class OwnerPet {
 	public String toString() {
 		return this.getName();
 	}
+
 }

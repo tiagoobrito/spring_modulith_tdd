@@ -11,12 +11,12 @@ import java.util.Set;
 
 public interface VisitRepository {
 
-    void save(Visit visit);
+	void save(Visit visit);
 
-    Set<Visit> findVisitByPetId(@Param("id") Integer id);
+	Set<Visit> findVisitByPetId(@Param("id") Integer id);
 
-    List<Visit> findAll();
+	List<Visit> findAll();
 
+	Visit findById(Integer id);
 
-    Visit findById(Integer id);
 }

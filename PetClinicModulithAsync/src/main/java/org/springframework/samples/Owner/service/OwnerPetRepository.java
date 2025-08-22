@@ -7,13 +7,14 @@ import java.util.Set;
 
 public interface OwnerPetRepository {
 
-    List<OwnerPet> findPetByOwnerId(Integer id);
+	List<OwnerPet> findPetByOwnerId(Integer id);
 
-    OwnerPet findById(Integer id);
+	OwnerPet findById(Integer id);
 
-    void save(boolean isNew, OwnerPet pet);
+	void save(boolean isNew, OwnerPet pet);
 
-    void saveVisit(OwnerPet.Visit visit);
+	void saveVisit(OwnerPet.Visit visit);
 
-    Set<OwnerPet.Visit> findVisitByPetId(Integer id);
+	Set<OwnerPet.Visit> findVisitByPetId(Integer id);
+
 }
