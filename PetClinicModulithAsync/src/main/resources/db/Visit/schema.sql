@@ -1,4 +1,4 @@
-DROP TABLE visits IF EXISTS;
+DROP TABLE IF EXISTS visits;
 
 
 CREATE TABLE visits (

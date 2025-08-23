@@ -230,6 +230,9 @@
               <version>1.18.22</version>
             </path>
           </annotationProcessorPaths>
+          <compilerArgs>
+            <arg>-parameters</arg>
+          </compilerArgs>
         </configuration>
       </plugin>
       <plugin>
