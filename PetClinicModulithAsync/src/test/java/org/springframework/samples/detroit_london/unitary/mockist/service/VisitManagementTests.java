@@ -49,8 +49,8 @@ class VisitManagementTests {
 
 	@Test
 	void findAll_delegates_to_repo_and_returns_list() {
-		Visit v1 = VisitTestData.FIDO_VACCINE;
-		Visit v2 = VisitTestData.FIDO_TEETH;
+		Visit v1 = VisitTestData.fido_vaccine();
+		Visit v2 = VisitTestData.fido_teeth();
 		when(visitRepository.findAll()).thenReturn(List.of(v1, v2));
 
 		List<Visit> out = service.findAll();

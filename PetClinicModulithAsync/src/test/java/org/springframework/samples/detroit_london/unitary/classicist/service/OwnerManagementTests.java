@@ -28,11 +28,11 @@ class OwnerManagementTests {
 		ownerRepo = new FakeOwnerRepository();
 		FakeOwnerPetRepository petRepo = new FakeOwnerPetRepository();
 
-		ownerRepo.preload(OwnerTestData.JOHN_DOE, OwnerTestData.JANE_SMITH, OwnerTestData.ALICE_JOHNSON,
-				OwnerTestData.ANTHONY_SMITH);
-		petRepo.preloadPets(OwnerPetTestData.FIDO, OwnerPetTestData.BELLA, OwnerPetTestData.MAX, OwnerPetTestData.LULU,
-				OwnerPetTestData.LALA);
-		petRepo.preloadVisits(OwnerPetTestData.BELLA_V1, OwnerPetTestData.FIDO_V1, OwnerPetTestData.FIDO_V2);
+		ownerRepo.preload(OwnerTestData.john_doe(), OwnerTestData.jane_smith(), OwnerTestData.alice_johnson(),
+				OwnerTestData.anthony_smith());
+		petRepo.preloadPets(OwnerPetTestData.fido(), OwnerPetTestData.bella(), OwnerPetTestData.max(),
+				OwnerPetTestData.lulu(), OwnerPetTestData.lala());
+		petRepo.preloadVisits(OwnerPetTestData.bella_v1(), OwnerPetTestData.fido_v1(), OwnerPetTestData.fido_v2());
 
 		service = new OwnerManagement(ownerRepo, petRepo);
 	}
@@ -60,7 +60,7 @@ class OwnerManagementTests {
 
 	@Test
 	void save_existing_owner_updates_fields() {
-		Owner updated = OwnerTestData.JOHN_DOE;
+		Owner updated = OwnerTestData.john_doe();
 		updated.setAddress("New Address");
 
 		Integer outId = service.save(updated);

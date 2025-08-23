@@ -49,7 +49,7 @@ class VisitControllerTests {
 	@BeforeEach
 	void setUp() {
 		visitRepo = new FakeVisitRepository();
-		visitRepo.preload(VisitTestData.FIDO_VACCINE, VisitTestData.FIDO_TEETH, VisitTestData.BELLA_ANNUAL);
+		visitRepo.preload(VisitTestData.fido_vaccine(), VisitTestData.fido_teeth(), VisitTestData.bella_annual());
 
 		events = new CollectingPublisher();
 		VisitManagement api = new VisitManagement(visitRepo, events);

@@ -38,11 +38,11 @@ class OwnerControllerTests {
 		ownerRepo = new FakeOwnerRepository();
 		petRepo = new FakeOwnerPetRepository();
 
-		ownerRepo.preload(OwnerTestData.JOHN_DOE, OwnerTestData.JANE_SMITH, OwnerTestData.ALICE_JOHNSON,
-				OwnerTestData.ANTHONY_SMITH);
-		petRepo.preloadPets(OwnerPetTestData.FIDO, OwnerPetTestData.BELLA, OwnerPetTestData.MAX, OwnerPetTestData.LULU,
-				OwnerPetTestData.LALA);
-		petRepo.preloadVisits(OwnerPetTestData.BELLA_V1, OwnerPetTestData.FIDO_V1, OwnerPetTestData.FIDO_V2);
+		ownerRepo.preload(OwnerTestData.john_doe(), OwnerTestData.jane_smith(), OwnerTestData.alice_johnson(),
+				OwnerTestData.anthony_smith());
+		petRepo.preloadPets(OwnerPetTestData.fido(), OwnerPetTestData.bella(), OwnerPetTestData.max(),
+				OwnerPetTestData.lulu(), OwnerPetTestData.lala());
+		petRepo.preloadVisits(OwnerPetTestData.bella_v1(), OwnerPetTestData.fido_v1(), OwnerPetTestData.fido_v2());
 
 		// real service under test’s dependency
 		OwnerManagement api = new OwnerManagement(ownerRepo, petRepo);
@@ -143,7 +143,7 @@ class OwnerControllerTests {
 
 	@Test
 	void processFindForm_single_result_redirects_to_details() {
-		Owner saved = OwnerTestData.JOHN_DOE;
+		Owner saved = OwnerTestData.john_doe();
 		Model model = new ExtendedModelMap();
 		Owner probe = new Owner();
 		probe.setLastName("Doe");

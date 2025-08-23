@@ -52,9 +52,9 @@ class PetManagementTests {
 		petRepo = new FakePetRepository();
 		FakePetTypeRepository typeRepo = new FakePetTypeRepository();
 
-		petRepo.preloadPets(PetTestData.FIDO, PetTestData.BELLA, PetTestData.MAX);
-		petRepo.preloadVisits(PetTestData.FIDO_VACCINE, PetTestData.FIDO_TEETH, PetTestData.BELLA_ANNUAL);
-		typeRepo.preload(PetTestData.DOG, PetTestData.CAT);
+		petRepo.preloadPets(PetTestData.fido(), PetTestData.bella(), PetTestData.max());
+		petRepo.preloadVisits(PetTestData.fido_vaccine(), PetTestData.fido_teeth(), PetTestData.bella_annual());
+		typeRepo.preload(PetTestData.dog(), PetTestData.cat());
 
 		events = new CollectingPublisher();
 		service = new PetManagement(petRepo, typeRepo, events);
@@ -69,7 +69,7 @@ class PetManagementTests {
 
 	@Test
 	void getPetById_returns_pet() {
-		Pet out = service.getPetById(PetTestData.FIDO.getId());
+		Pet out = service.getPetById(PetTestData.fido().getId());
 
 		assertThat(out.getName()).isEqualTo("Fido");
 	}
@@ -108,7 +108,7 @@ class PetManagementTests {
 
 	@Test
 	void save_existing_pet_updates_and_publishes_SavePetEvent_with_isNew_false() {
-		Pet existing = petRepo.findById(PetTestData.FIDO.getId());
+		Pet existing = petRepo.findById(PetTestData.fido().getId());
 		existing.setName("Sir Fido");
 
 		service.save(existing);

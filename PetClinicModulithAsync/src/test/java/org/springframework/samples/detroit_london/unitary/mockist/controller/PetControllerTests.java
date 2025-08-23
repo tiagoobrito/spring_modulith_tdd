@@ -43,7 +43,7 @@ public class PetControllerTests {
 
 	@Test
 	void processCreationForm_invalid_birthDate_stays_on_form() {
-		Pet bad = PetTestData.FIDO;
+		Pet bad = PetTestData.fido();
 		bad.setBirthDate(LocalDate.now().plusDays(1));
 		BindingResult br = new BeanPropertyBindingResult(bad, "pet");
 		ModelMap model = new ModelMap();
@@ -72,7 +72,7 @@ public class PetControllerTests {
 
 	@Test
 	void initUpdateForm_loads_pet_and_returns_form() {
-		Pet stored = PetTestData.FIDO;
+		Pet stored = PetTestData.fido();
 		when(api.getPetById(10)).thenReturn(stored);
 		ModelMap model = new ModelMap();
 
@@ -86,7 +86,7 @@ public class PetControllerTests {
 
 	@Test
 	void processUpdateForm_future_birthDate_stays_on_form() {
-		Pet bad = PetTestData.FIDO;
+		Pet bad = PetTestData.fido();
 		bad.setBirthDate(LocalDate.now().plusDays(1));
 		BindingResult br = new BeanPropertyBindingResult(bad, "pet");
 		ModelMap model = new ModelMap();
@@ -101,7 +101,7 @@ public class PetControllerTests {
 
 	@Test
 	void processUpdateForm_success_sets_owner_and_redirects() {
-		Pet update = PetTestData.FIDO;
+		Pet update = PetTestData.fido();
 		update.setBirthDate(LocalDate.of(2019, 5, 20));
 		BindingResult br = new BeanPropertyBindingResult(update, "pet");
 		ModelMap model = new ModelMap();
@@ -116,7 +116,7 @@ public class PetControllerTests {
 
 	@Test
     void populatePetTypes_returns_types_from_api() {
-        when(api.findPetTypes()).thenReturn(List.of(PetTestData.DOG, PetTestData.CAT));
+        when(api.findPetTypes()).thenReturn(List.of(PetTestData.dog(), PetTestData.cat()));
 
         var types = controller.populatePetTypes();
 
@@ -127,7 +127,7 @@ public class PetControllerTests {
 
 	@Test
 	void findPet_returns_new_when_null_and_loaded_when_id_present() {
-		Pet stored = PetTestData.FIDO;
+		Pet stored = PetTestData.fido();
 
 		Pet fresh = controller.findPet(null);
 		assertThat(fresh.getId()).isNull();

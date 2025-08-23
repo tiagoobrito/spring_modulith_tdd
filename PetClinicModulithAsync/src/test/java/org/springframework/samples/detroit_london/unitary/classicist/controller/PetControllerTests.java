@@ -45,9 +45,9 @@ class PetControllerTests {
 		petRepo = new FakePetRepository();
 		FakePetTypeRepository typeRepo = new FakePetTypeRepository();
 
-		petRepo.preloadPets(PetTestData.FIDO, PetTestData.BELLA, PetTestData.MAX);
-		petRepo.preloadVisits(PetTestData.FIDO_VACCINE, PetTestData.FIDO_TEETH, PetTestData.BELLA_ANNUAL);
-		typeRepo.preload(PetTestData.DOG, PetTestData.CAT);
+		petRepo.preloadPets(PetTestData.fido(), PetTestData.bella(), PetTestData.max());
+		petRepo.preloadVisits(PetTestData.fido_vaccine(), PetTestData.fido_teeth(), PetTestData.bella_annual());
+		typeRepo.preload(PetTestData.dog(), PetTestData.cat());
 
 		CollectingPublisher events = new CollectingPublisher();
 
@@ -98,7 +98,7 @@ class PetControllerTests {
 	void initUpdateForm_loads_pet_and_returns_form() {
 		ModelMap model = new ModelMap();
 
-		String view = controller.initUpdateForm(PetTestData.FIDO.getId(), model, new RedirectAttributesModelMap());
+		String view = controller.initUpdateForm(PetTestData.fido().getId(), model, new RedirectAttributesModelMap());
 
 		assertThat(view).isEqualTo("pets/createOrUpdatePetForm");
 		assertThat(((Pet) model.get("pet")).getName()).isEqualTo("Fido");
@@ -106,7 +106,7 @@ class PetControllerTests {
 
 	@Test
 	void processUpdateForm_future_birthDate_stays_on_form() {
-		Pet update = PetTestData.FIDO;
+		Pet update = PetTestData.fido();
 		update.setBirthDate(LocalDate.now().plusDays(1));
 
 		BindingResult br = new BeanPropertyBindingResult(update, "pet");
@@ -121,7 +121,7 @@ class PetControllerTests {
 
 	@Test
 	void processUpdateForm_success_sets_owner_and_redirects() {
-		Pet update = PetTestData.FIDO;
+		Pet update = PetTestData.fido();
 		update.setBirthDate(LocalDate.of(2019, 5, 20));
 
 		BindingResult br = new BeanPropertyBindingResult(update, "pet");
@@ -130,8 +130,8 @@ class PetControllerTests {
 		String view = controller.processUpdateForm(101, update, br, model, new RedirectAttributesModelMap());
 
 		assertThat(view).isEqualTo("redirect:/owners/{ownerId}");
-		assertThat(petRepo.findById(PetTestData.FIDO.getId()).getName()).isEqualTo("Fido");
-		assertThat(petRepo.findById(PetTestData.FIDO.getId()).getOwner_id()).isEqualTo(101);
+		assertThat(petRepo.findById(PetTestData.fido().getId()).getName()).isEqualTo("Fido");
+		assertThat(petRepo.findById(PetTestData.fido().getId()).getOwner_id()).isEqualTo(101);
 	}
 
 	@Test
@@ -145,7 +145,7 @@ class PetControllerTests {
 		Pet fresh = controller.findPet(null);
 		assertThat(fresh.getId()).isNull();
 
-		Pet loaded = controller.findPet(PetTestData.FIDO.getId());
+		Pet loaded = controller.findPet(PetTestData.fido().getId());
 		assertThat(loaded.getName()).isEqualTo("Fido");
 	}
 

@@ -8,24 +8,32 @@ import java.util.Set;
 import static org.springframework.samples.Vet.model.SpecialtyBuilder.aSpecialty;
 import static org.springframework.samples.Vet.model.VetBuilder.aVet;
 
-public final class VetTestData {
+public class VetTestData {
 
 	// Specialties
-	public static final Specialty RADIOLOGY = aSpecialty().withId(1).named("radiology").build();
+	public static Specialty radiology() {
+		return aSpecialty().withId(1).named("radiology").build();
+	}
 
-	public static final Specialty SURGERY = aSpecialty().withId(2).named("surgery").build();
+	public static Specialty surgery() {
+		return aSpecialty().withId(2).named("surgery").build();
+	}
 
-	public static final Specialty DENTISTRY = aSpecialty().withId(3).named("dentistry").build();
+	public static Specialty dentistry() {
+		return aSpecialty().withId(3).named("dentistry").build();
+	}
 
 	// Vets
-	public static final Vet JAMES_CARTER = aVet().withId(10).named("James", "Carter").withSpecialty(RADIOLOGY).build();
+	public static Vet james_carter() {
+		return aVet().withId(10).named("James", "Carter").withSpecialty(radiology()).build();
+	}
 
-	public static final Vet HELEN_LEARY = aVet().withId(11)
-		.named("Helen", "Leary")
-		.withSpecialties(Set.of(SURGERY, DENTISTRY))
-		.build();
+	public static Vet helen_leary() {
+		return aVet().withId(11).named("Helen", "Leary").withSpecialties(Set.of(surgery(), dentistry())).build();
+	}
 
-	public static final Vet LINDA_DOUGLAS = aVet().withId(12).named("Linda", "Douglas").build(); // no
-																									// specialties
+	public static Vet linda_douglas() {
+		return aVet().withId(12).named("Linda", "Douglas").build();
+	}
 
 }

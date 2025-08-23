@@ -42,7 +42,7 @@ class PetManagementTests {
 
 	@Test
     void findPetTypes_delegates_to_repo() {
-        when(petTypeRepository.findPetTypes()).thenReturn(List.of(PetTestData.DOG, PetTestData.CAT));
+        when(petTypeRepository.findPetTypes()).thenReturn(List.of(PetTestData.dog(), PetTestData.cat()));
 
         Collection<PetType> out = service.findPetTypes();
 
@@ -53,7 +53,7 @@ class PetManagementTests {
 
 	@Test
     void getPetById_delegates_to_repo() {
-        when(petRepository.findById(10)).thenReturn(PetTestData.FIDO);
+        when(petRepository.findById(10)).thenReturn(PetTestData.fido());
 
         Pet out = service.getPetById(10);
 
@@ -65,7 +65,7 @@ class PetManagementTests {
 
 	@Test
     void getPetByName_delegates_to_repo() {
-        when(petRepository.findPetByName("Fido")).thenReturn(Optional.of(PetTestData.FIDO));
+        when(petRepository.findPetByName("Fido")).thenReturn(Optional.of(PetTestData.fido()));
 
         Optional<Pet> out = service.getPetByName("Fido", true);
 
@@ -103,7 +103,7 @@ class PetManagementTests {
 
 	@Test
 	void save_existing_pet_calls_repo_and_publishes_SavePetEvent_with_isNew_false() {
-		Pet existing = PetTestData.BELLA;
+		Pet existing = PetTestData.bella();
 
 		service.save(existing);
 

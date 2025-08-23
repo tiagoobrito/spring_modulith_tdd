@@ -64,14 +64,14 @@ class OwnerManagementTests {
 
 	@Test
 	void findById_populates_pets_and_visits() {
-		Owner owner = OwnerTestData.JOHN_DOE;
-		OwnerPet fido = OwnerPetTestData.FIDO;
-		OwnerPet bella = OwnerPetTestData.BELLA;
+		Owner owner = OwnerTestData.john_doe();
+		OwnerPet fido = OwnerPetTestData.fido();
+		OwnerPet bella = OwnerPetTestData.bella();
 
 		when(ownerRepo.findById(1)).thenReturn(owner);
 		when(petRepo.findPetByOwnerId(1)).thenReturn(List.of(fido, bella));
-		when(petRepo.findVisitByPetId(10)).thenReturn(Set.of(OwnerPetTestData.FIDO_V1, OwnerPetTestData.FIDO_V2));
-		when(petRepo.findVisitByPetId(11)).thenReturn(Set.of(OwnerPetTestData.BELLA_V1));
+		when(petRepo.findVisitByPetId(10)).thenReturn(Set.of(OwnerPetTestData.fido_v1(), OwnerPetTestData.fido_v2()));
+		when(petRepo.findVisitByPetId(11)).thenReturn(Set.of(OwnerPetTestData.bella_v1()));
 
 		Owner out = service.findById(1);
 
@@ -130,12 +130,12 @@ class OwnerManagementTests {
 
 	@Test
 	void findByLastName_populates_pets_in_page() {
-		Owner o1 = OwnerTestData.JANE_SMITH;
-		Owner o2 = OwnerTestData.ANTHONY_SMITH;
+		Owner o1 = OwnerTestData.jane_smith();
+		Owner o2 = OwnerTestData.anthony_smith();
 		Page<Owner> repoPage = new PageImpl<>(List.of(o1, o2), PageRequest.of(0, 10), 2);
 		when(ownerRepo.findByLastName(eq("Smi"), any(Pageable.class))).thenReturn(repoPage);
-		when(petRepo.findPetByOwnerId(o1.getId())).thenReturn(List.of(OwnerPetTestData.LALA));
-		when(petRepo.findPetByOwnerId(o2.getId())).thenReturn(List.of(OwnerPetTestData.LULU));
+		when(petRepo.findPetByOwnerId(o1.getId())).thenReturn(List.of(OwnerPetTestData.lala()));
+		when(petRepo.findPetByOwnerId(o2.getId())).thenReturn(List.of(OwnerPetTestData.lulu()));
 
 		Page<Owner> page = service.findByLastName("Smi", PageRequest.of(0, 10));
 
@@ -149,7 +149,7 @@ class OwnerManagementTests {
 
 	@Test
     void findPetByOwner_delegates_to_pet_repo() {
-        when(petRepo.findPetByOwnerId(1)).thenReturn(List.of(OwnerPetTestData.FIDO, OwnerPetTestData.BELLA));
+        when(petRepo.findPetByOwnerId(1)).thenReturn(List.of(OwnerPetTestData.fido(), OwnerPetTestData.bella()));
 
         List<OwnerPet> result = service.findPetByOwner(1);
 
@@ -160,7 +160,7 @@ class OwnerManagementTests {
 
 	@Test
     void findByName_delegates_to_owner_repo() {
-        when(ownerRepo.findByName("John", "Doe")).thenReturn(Optional.of(OwnerTestData.JOHN_DOE));
+        when(ownerRepo.findByName("John", "Doe")).thenReturn(Optional.of(OwnerTestData.john_doe()));
 
         Optional<Owner> result = service.findByName("John", "Doe");
 

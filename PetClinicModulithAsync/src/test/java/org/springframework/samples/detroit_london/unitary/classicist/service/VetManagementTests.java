@@ -21,7 +21,7 @@ class VetManagementTests {
 	void setUp() {
 		vetRepo = new FakeVetRepository();
 
-		vetRepo.preload(VetTestData.JAMES_CARTER, VetTestData.HELEN_LEARY, VetTestData.LINDA_DOUGLAS);
+		vetRepo.preload(VetTestData.james_carter(), VetTestData.helen_leary(), VetTestData.linda_douglas());
 
 		service = new VetManagement(vetRepo);
 	}

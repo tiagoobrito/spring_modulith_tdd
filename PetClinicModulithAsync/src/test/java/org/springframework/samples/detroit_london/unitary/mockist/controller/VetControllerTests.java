@@ -33,9 +33,9 @@ class VetControllerTests {
 	@Test
 	void showVetList_populates_pagination_model_and_returns_view() {
 		PageRequest expected = PageRequest.of(0, 5);
-		Vet james = VetTestData.JAMES_CARTER;
-		Vet helen = VetTestData.HELEN_LEARY;
-		Vet linda = VetTestData.LINDA_DOUGLAS;
+		Vet james = VetTestData.james_carter();
+		Vet helen = VetTestData.helen_leary();
+		Vet linda = VetTestData.linda_douglas();
 		Page<Vet> page = new PageImpl<>(List.of(james, helen, linda), expected, 3);
 
 		when(api.findAll(any(PageRequest.class))).thenReturn(page);
@@ -58,8 +58,8 @@ class VetControllerTests {
 
 	@Test
 	void showResourcesVetList_returns_all_vets_in_body() {
-		Vet james = VetTestData.JAMES_CARTER;
-		Vet helen = VetTestData.HELEN_LEARY;
+		Vet james = VetTestData.james_carter();
+		Vet helen = VetTestData.helen_leary();
 		when(api.findAll()).thenReturn(List.of(james, helen));
 
 		Vets out = controller.showResourcesVetList();

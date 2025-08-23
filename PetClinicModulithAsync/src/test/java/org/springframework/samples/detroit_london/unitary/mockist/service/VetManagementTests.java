@@ -29,8 +29,8 @@ class VetManagementTests {
 	@Test
 	void findAll_paged_delegates_and_returns_page() {
 		PageRequest p0 = PageRequest.of(0, 2);
-		Vet james = VetTestData.JAMES_CARTER;
-		Vet helen = VetTestData.HELEN_LEARY;
+		Vet james = VetTestData.james_carter();
+		Vet helen = VetTestData.helen_leary();
 		when(vetRepository.findAll(p0)).thenReturn(new PageImpl<>(List.of(james, helen), p0, 3));
 
 		Page<Vet> page = service.findAll(p0);
@@ -43,9 +43,9 @@ class VetManagementTests {
 
 	@Test
 	void findAll_unpaged_delegates_and_returns_collection() {
-		Vet james = VetTestData.JAMES_CARTER;
-		Vet helen = VetTestData.HELEN_LEARY;
-		Vet linda = VetTestData.LINDA_DOUGLAS;
+		Vet james = VetTestData.james_carter();
+		Vet helen = VetTestData.helen_leary();
+		Vet linda = VetTestData.linda_douglas();
 		when(vetRepository.findAll()).thenReturn(List.of(james, helen, linda));
 
 		var out = service.findAll();

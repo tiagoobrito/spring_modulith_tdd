@@ -138,8 +138,8 @@ class OwnerControllerTests {
 
 	@Test
 	void processFindForm_multiple_results_returns_list_with_pagination_model() {
-		Owner o1 = OwnerTestData.JANE_SMITH;
-		Owner o2 = OwnerTestData.ANTHONY_SMITH;
+		Owner o1 = OwnerTestData.jane_smith();
+		Owner o2 = OwnerTestData.anthony_smith();
 		when(api.findByLastName(eq("Sm"), any())).thenReturn(new PageImpl<>(List.of(o1, o2), PageRequest.of(0, 5), 2));
 
 		Model model = new ExtendedModelMap();
@@ -160,7 +160,7 @@ class OwnerControllerTests {
 
 	@Test
     void initUpdateOwnerForm_loads_owner_and_returns_form() {
-        when(api.findById(2)).thenReturn(OwnerTestData.JANE_SMITH);
+        when(api.findById(2)).thenReturn(OwnerTestData.jane_smith());
         ModelMap model = new ModelMap();
 
         String view = controller.initUpdateOwnerForm(2, model);
@@ -187,7 +187,7 @@ class OwnerControllerTests {
 
 	@Test
     void processUpdateOwnerForm_success_sets_pets_and_redirects() {
-        when(api.findPetByOwner(1)).thenReturn(List.of(OwnerPetTestData.FIDO));
+        when(api.findPetByOwner(1)).thenReturn(List.of(OwnerPetTestData.fido()));
         when(api.save(any(Owner.class))).thenReturn(1);
 
         Owner update = OwnerBuilder.anOwner().build();
@@ -210,7 +210,7 @@ class OwnerControllerTests {
 
 	@Test
 	void showOwner_returns_ownerDetails_with_owner_in_model() {
-		Owner saved = OwnerTestData.JOHN_DOE;
+		Owner saved = OwnerTestData.john_doe();
 		when(api.findById(1)).thenReturn(saved);
 
 		ModelAndView mav = controller.showOwner(1);
