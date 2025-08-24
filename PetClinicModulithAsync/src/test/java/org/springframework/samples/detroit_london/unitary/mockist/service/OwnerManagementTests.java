@@ -41,27 +41,6 @@ class OwnerManagementTests {
 	@InjectMocks
 	OwnerManagement service;
 
-	private static Owner owner(Integer id, String fn, String ln) {
-		Owner o = new Owner();
-		o.setId(id);
-		o.setFirstName(fn);
-		o.setLastName(ln);
-		o.setAddress("Addr");
-		o.setCity("City");
-		o.setTelephone("999");
-		return o;
-	}
-
-	private static OwnerPet pet(Integer id, Integer ownerId, String name, String type) {
-		OwnerPet p = new OwnerPet();
-		p.setId(id);
-		p.setOwner_id(ownerId);
-		p.setName(name);
-		p.setType_name(type);
-		p.setBirthDate(LocalDate.of(2020, 1, 1));
-		return p;
-	}
-
 	@Test
 	void findById_populates_pets_and_visits() {
 		Owner owner = OwnerTestData.john_doe();

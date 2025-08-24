@@ -2,16 +2,15 @@ package org.springframework.samples.detroit_london.unitary.classicist.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.samples.Visit.model.Visit;
 import org.springframework.samples.Visit.model.VisitBuilder;
 import org.springframework.samples.Visit.service.VisitManagement;
+import org.springframework.samples.detroit_london.fake.CollectingPublisher;
 import org.springframework.samples.detroit_london.fake.data.VisitTestData;
 import org.springframework.samples.detroit_london.fake.repository.FakeVisitRepository;
 import org.springframework.samples.notifications.AddVisitEvent;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,23 +22,6 @@ class VisitManagementTests {
 	private CollectingPublisher events;
 
 	private VisitManagement service;
-
-	/** Simple collecting publisher for asserting emitted events. */
-	static class CollectingPublisher implements ApplicationEventPublisher {
-
-		final List<Object> published = new ArrayList<>();
-
-		@Override
-		public void publishEvent(Object event) {
-			published.add(event);
-		}
-
-		@SuppressWarnings("unchecked")
-		<T> T first(Class<T> type) {
-			return (T) published.stream().filter(type::isInstance).findFirst().orElse(null);
-		}
-
-	}
 
 	@BeforeEach
 	void setUp() {

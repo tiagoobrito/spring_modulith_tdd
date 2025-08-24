@@ -8,6 +8,7 @@ import org.springframework.samples.Pet.model.Pet;
 import org.springframework.samples.Pet.model.PetBuilder;
 import org.springframework.samples.Pet.model.PetType;
 import org.springframework.samples.Pet.service.PetManagement;
+import org.springframework.samples.detroit_london.fake.CollectingPublisher;
 import org.springframework.samples.detroit_london.fake.data.PetTestData;
 import org.springframework.samples.detroit_london.fake.repository.FakePetRepository;
 import org.springframework.samples.detroit_london.fake.repository.FakePetTypeRepository;
@@ -27,18 +28,6 @@ class PetControllerTests {
 	private FakePetRepository petRepo;
 
 	private PetController controller;
-
-	/** Collects published events (service emits SavePetEvent/AddVisitPet). */
-	static class CollectingPublisher implements ApplicationEventPublisher {
-
-		final java.util.List<Object> published = new ArrayList<>();
-
-		@Override
-		public void publishEvent(Object event) {
-			published.add(event);
-		}
-
-	}
 
 	@BeforeEach
 	void setUp() {

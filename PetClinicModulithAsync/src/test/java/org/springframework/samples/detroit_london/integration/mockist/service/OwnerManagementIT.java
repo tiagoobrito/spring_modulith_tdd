@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.Owner.model.Owner;
+import org.springframework.samples.Owner.model.OwnerBuilder;
 import org.springframework.samples.Owner.model.OwnerPet;
 import org.springframework.samples.Owner.service.OwnerManagement;
 import org.springframework.samples.Owner.service.OwnerPetRepository;
@@ -24,9 +25,8 @@ import static org.mockito.Mockito.*;
 class OwnerManagementIT {
 
 	@Autowired
-	OwnerManagement service; // ONLY the service is autowired for use
+	OwnerManagement service;
 
-	// Spy the REAL beans (they still hit the DB)
 	@SpyBean
 	OwnerRepository ownerRepository;
 
@@ -35,7 +35,6 @@ class OwnerManagementIT {
 
 	@Test
 	void findById_calls_repos_in_order_and_enriches_pets_and_visits_from_seed() {
-		// owner 6 as per seed
 		Owner out = service.findById(6);
 
 		assertThat(out.getPets()).extracting(OwnerPet::getName).contains("Samantha", "Max");
@@ -71,7 +70,7 @@ class OwnerManagementIT {
 
 	@Test
 	void save_new_owner_delegates_to_owner_repo_save() {
-		Integer id = service.save(owner(null, "Alice", "Johnson"));
+		Integer id = service.save(OwnerBuilder.anOwner().withFirstName("Alice").withLastName("Johnson").build());
 
 		assertThat(id).isNotNull();
 		verify(ownerRepository).save(argThat(o -> o.getId().equals(id) && o.getFirstName().equals("Alice")));
@@ -81,8 +80,7 @@ class OwnerManagementIT {
 
 	@Test
 	void save_existing_owner_loads_then_updates_then_saves() {
-		// Update seeded owner id 1
-		Integer outId = service.save(owner(1, "George", "Franklin"));
+		Integer outId = service.save(OwnerBuilder.anOwner().withId(1).withFirstName("George").withLastName("Franklin").build());
 		assertThat(outId).isEqualTo(1);
 
 		InOrder in = inOrder(ownerRepository);
@@ -92,18 +90,6 @@ class OwnerManagementIT {
 					&& o.getLastName().equals("Franklin")));
 		verifyNoMoreInteractions(ownerRepository);
 		verifyNoInteractions(ownerPetRepository);
-	}
-
-	// helper
-	private static Owner owner(Integer id, String fn, String ln) {
-		Owner o = new Owner();
-		o.setId(id);
-		o.setFirstName(fn);
-		o.setLastName(ln);
-		o.setAddress("Addr");
-		o.setCity("City");
-		o.setTelephone("999");
-		return o;
 	}
 
 }

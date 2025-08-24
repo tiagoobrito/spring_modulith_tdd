@@ -10,7 +10,9 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.PayloadApplicationEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.samples.Pet.model.Pet;
+import org.springframework.samples.Pet.model.PetBuilder;
 import org.springframework.samples.Pet.model.PetType;
+import org.springframework.samples.Pet.model.PetTypeBuilder;
 import org.springframework.samples.Pet.service.PetManagement;
 import org.springframework.samples.notifications.AddVisitEvent;
 import org.springframework.samples.notifications.AddVisitPet;
@@ -33,23 +35,6 @@ class PetManagementIT {
 
 	@Autowired
 	PetManagement service;
-
-	private static PetType type(int id, String name) {
-		PetType t = new PetType();
-		t.setId(id);
-		t.setName(name);
-		return t;
-	}
-
-	private static Pet pet(Integer id, String name, Integer ownerId, PetType type, LocalDate birth) {
-		Pet p = new Pet();
-		p.setId(id);
-		p.setName(name);
-		p.setOwner_id(ownerId);
-		p.setType(type);
-		p.setBirthDate(birth);
-		return p;
-	}
 
 	@Test
 	void findPetTypes_returns_seeded_types() {
@@ -74,7 +59,10 @@ class PetManagementIT {
 
 	@Test
 	void save_new_pet_persists_and_publishes_SavePetEvent() {
-		Pet newPet = pet(null, "Zazu", 1, type(2, "dog"), LocalDate.of(2020, 5, 2));
+		Pet newPet = PetBuilder.aPet().named("Zazu")
+				.ownedBy(1)
+				.ofType(PetTypeBuilder.aPetType().withId(2).build())
+				.bornOn(LocalDate.of(2020, 5, 2)).build();
 
 		service.save(newPet);
 

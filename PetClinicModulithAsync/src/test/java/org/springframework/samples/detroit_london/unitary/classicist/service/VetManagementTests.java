@@ -13,13 +13,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class VetManagementTests {
 
-	private FakeVetRepository vetRepo;
-
-	private VetManagement service;
+    private VetManagement service;
 
 	@BeforeEach
 	void setUp() {
-		vetRepo = new FakeVetRepository();
+        FakeVetRepository vetRepo = new FakeVetRepository();
 
 		vetRepo.preload(VetTestData.james_carter(), VetTestData.helen_leary(), VetTestData.linda_douglas());
 

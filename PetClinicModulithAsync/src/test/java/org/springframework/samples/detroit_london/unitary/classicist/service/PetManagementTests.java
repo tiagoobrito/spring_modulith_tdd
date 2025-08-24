@@ -7,6 +7,7 @@ import org.springframework.samples.Pet.model.PetType;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.samples.Pet.service.PetManagement;
+import org.springframework.samples.detroit_london.fake.CollectingPublisher;
 import org.springframework.samples.detroit_london.fake.data.PetTestData;
 import org.springframework.samples.detroit_london.fake.repository.FakePetRepository;
 import org.springframework.samples.detroit_london.fake.repository.FakePetTypeRepository;
@@ -30,22 +31,6 @@ class PetManagementTests {
 	private CollectingPublisher events;
 
 	private PetManagement service;
-
-	/** Simple collecting publisher (keeps published events for assertions). */
-	static class CollectingPublisher implements ApplicationEventPublisher {
-
-		final java.util.List<Object> events = new ArrayList<>();
-
-		@Override
-		public void publishEvent(Object event) {
-			events.add(event);
-		}
-
-		<T> T findFirst(Class<T> type) {
-			return type.cast(events.stream().filter(type::isInstance).findFirst().orElse(null));
-		}
-
-	}
 
 	@BeforeEach
 	void setUp() {
@@ -98,7 +83,7 @@ class PetManagementTests {
 		Pet persisted = petRepo.findPetByName("Max").orElseThrow();
 		assertThat(persisted.getId()).isNotNull();
 
-		SavePetEvent ev = events.findFirst(SavePetEvent.class);
+		SavePetEvent ev = events.first(SavePetEvent.class);
 		assertThat(ev).isNotNull();
 		assertThat(ev.getName()).isEqualTo("Max");
 		assertThat(ev.getOwner_id()).isEqualTo(200);
@@ -116,7 +101,7 @@ class PetManagementTests {
 		Pet after = petRepo.findById(existing.getId());
 		assertThat(after.getName()).isEqualTo("Sir Fido");
 
-		SavePetEvent ev = events.findFirst(SavePetEvent.class);
+		SavePetEvent ev = events.first(SavePetEvent.class);
 		assertThat(ev).isNotNull();
 		assertThat(ev.getId()).isEqualTo(existing.getId());
 		assertThat(ev.isNew()).isFalse();

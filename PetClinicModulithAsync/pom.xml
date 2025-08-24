@@ -37,7 +37,71 @@
                     <target>16</target>
                 </configuration>
             </plugin>
+
+            <!-- Run only a subset of tests via pattern from the active profile -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <!-- Split by comma above; Surefire accepts <include> per item -->
+                        <include>**/detroit_london/**/classicist/**/*Test*.java</include>
+                        <include>**/detroit_london/**/classicist/**/*IT*.java</include>
+                        <include>**/detroit_london/**/mockist/**/*Test*.java</include>
+                        <include>**/detroit_london/**/mockist/**/*IT*.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+
+            <!-- JaCoCo coverage -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.11</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>${jacoco.report.dir}/jacoco.exec</destFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <dataFile>${jacoco.report.dir}/jacoco.exec</dataFile>
+                            <outputDirectory>${jacoco.report.dir}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <!-- Detroit / Classicist -->
+        <profile>
+            <id>detroit</id>
+            <properties>
+                <test.includes>**/detroit_london/**/classicist/**/*Test*.java,**/detroit_london/**/classicist/**/*IT*.java</test.includes>
+                <jacoco.report.dir>${project.build.directory}/jacoco-detroit</jacoco.report.dir>
+            </properties>
+        </profile>
+
+        <!-- London / Mockist -->
+        <profile>
+            <id>london</id>
+            <properties>
+                <test.includes>**/detroit_london/**/mockist/**/*Test*.java,**/detroit_london/**/mockist/**/*IT*.java</test.includes>
+                <jacoco.report.dir>${project.build.directory}/jacoco-london</jacoco.report.dir>
+            </properties>
+        </profile>
+    </profiles>
+
 
 </project>

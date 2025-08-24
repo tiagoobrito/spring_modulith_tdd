@@ -2,7 +2,6 @@ package org.springframework.samples.detroit_london.unitary.classicist.controller
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.samples.Visit.controller.VisitController;
 import org.springframework.samples.Visit.model.Visit;
 import org.springframework.samples.Visit.model.VisitBuilder;
@@ -14,9 +13,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
+import org.springframework.samples.detroit_london.fake.CollectingPublisher;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,23 +27,6 @@ class VisitControllerTests {
 	private CollectingPublisher events;
 
 	private VisitController controller;
-
-	/** collects published events for assertions */
-	static class CollectingPublisher implements ApplicationEventPublisher {
-
-		final java.util.List<Object> published = new ArrayList<>();
-
-		@Override
-		public void publishEvent(Object event) {
-			published.add(event);
-		}
-
-		@SuppressWarnings("unchecked")
-		<T> T first(Class<T> type) {
-			return (T) published.stream().filter(type::isInstance).findFirst().orElse(null);
-		}
-
-	}
 
 	@BeforeEach
 	void setUp() {

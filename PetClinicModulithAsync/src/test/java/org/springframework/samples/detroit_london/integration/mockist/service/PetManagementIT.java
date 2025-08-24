@@ -8,7 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.samples.Pet.model.Pet;
+import org.springframework.samples.Pet.model.PetBuilder;
 import org.springframework.samples.Pet.model.PetType;
+import org.springframework.samples.Pet.model.PetTypeBuilder;
 import org.springframework.samples.Pet.service.PetManagement;
 import org.springframework.samples.Pet.service.PetRepository;
 import org.springframework.samples.Pet.service.PetTypeRepository;
@@ -39,23 +41,6 @@ class PetManagementIT {
 	@SpyBean
 	PetTypeRepository petTypeRepository;
 
-	private static PetType type(int id, String name) {
-		PetType t = new PetType();
-		t.setId(id);
-		t.setName(name);
-		return t;
-	}
-
-	private static Pet pet(Integer id, String name, Integer ownerId, PetType type, LocalDate birth) {
-		Pet p = new Pet();
-		p.setId(id);
-		p.setName(name);
-		p.setOwner_id(ownerId);
-		p.setType(type);
-		p.setBirthDate(birth);
-		return p;
-	}
-
 	@Test
 	void findPetTypes_delegates_and_returns_seeded_types() {
 		Collection<PetType> types = service.findPetTypes();
@@ -85,7 +70,10 @@ class PetManagementIT {
 
 	@Test
 	void save_new_pet_calls_repo_then_publishes_SavePetEvent() {
-		Pet newPet = pet(null, "Nala", 1, type(2, "dog"), LocalDate.of(2021, 2, 3));
+		Pet newPet = PetBuilder.aPet().named("Nala")
+				.ownedBy(1)
+				.ofType(PetTypeBuilder.aPetType().withId(2).build())
+				.bornOn(LocalDate.of(2021, 2, 3)).build();
 
 		service.save(newPet);
 
