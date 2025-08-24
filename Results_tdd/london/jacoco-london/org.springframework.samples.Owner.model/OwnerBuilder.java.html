@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OwnerBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PetClinicModulithAsync</a> &gt; <a href="index.source.html" class="el_package">org.springframework.samples.Owner.model</a> &gt; <span class="el_source">OwnerBuilder.java</span></div><h1>OwnerBuilder.java</h1><pre class="source lang-java linenums">package org.springframework.samples.Owner.model;
+
+<span class="fc" id="L3">public class OwnerBuilder {</span>
+
+	private Integer id;
+
+<span class="fc" id="L7">	private String firstName = &quot;Tiago&quot;;</span>
+
+<span class="fc" id="L9">	private String lastName = &quot;Brito&quot;;</span>
+
+<span class="fc" id="L11">	private String address = &quot;Rua das Brutas, 104&quot;;</span>
+
+<span class="fc" id="L13">	private String city = &quot;Povoa de Varzim&quot;;</span>
+
+<span class="fc" id="L15">	private String telephone = &quot;987123456&quot;;</span>
+
+	public static OwnerBuilder anOwner() {
+<span class="fc" id="L18">		return new OwnerBuilder();</span>
+	}
+
+	public OwnerBuilder withId(Integer id) {
+<span class="fc" id="L22">		this.id = id;</span>
+<span class="fc" id="L23">		return this;</span>
+	}
+
+	public OwnerBuilder withFirstName(String firstName) {
+<span class="fc" id="L27">		this.firstName = firstName;</span>
+<span class="fc" id="L28">		return this;</span>
+	}
+
+	public OwnerBuilder withLastName(String lastName) {
+<span class="fc" id="L32">		this.lastName = lastName;</span>
+<span class="fc" id="L33">		return this;</span>
+	}
+
+	public OwnerBuilder withAddress(String address) {
+<span class="fc" id="L37">		this.address = address;</span>
+<span class="fc" id="L38">		return this;</span>
+	}
+
+	public OwnerBuilder withCity(String city) {
+<span class="fc" id="L42">		this.city = city;</span>
+<span class="fc" id="L43">		return this;</span>
+	}
+
+	public OwnerBuilder withTelephone(String telephone) {
+<span class="fc" id="L47">		this.telephone = telephone;</span>
+<span class="fc" id="L48">		return this;</span>
+	}
+
+	public Owner build() {
+<span class="fc" id="L52">		Owner owner = new Owner();</span>
+<span class="fc" id="L53">		owner.setId(id);</span>
+<span class="fc" id="L54">		owner.setFirstName(firstName);</span>
+<span class="fc" id="L55">		owner.setLastName(lastName);</span>
+<span class="fc" id="L56">		owner.setAddress(address);</span>
+<span class="fc" id="L57">		owner.setCity(city);</span>
+<span class="fc" id="L58">		owner.setTelephone(telephone);</span>
+<span class="fc" id="L59">		return owner;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

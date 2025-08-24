@@ -80,7 +80,8 @@ class OwnerManagementIT {
 
 	@Test
 	void save_existing_owner_loads_then_updates_then_saves() {
-		Integer outId = service.save(OwnerBuilder.anOwner().withId(1).withFirstName("George").withLastName("Franklin").build());
+		Integer outId = service
+			.save(OwnerBuilder.anOwner().withId(1).withFirstName("George").withLastName("Franklin").build());
 		assertThat(outId).isEqualTo(1);
 
 		InOrder in = inOrder(ownerRepository);

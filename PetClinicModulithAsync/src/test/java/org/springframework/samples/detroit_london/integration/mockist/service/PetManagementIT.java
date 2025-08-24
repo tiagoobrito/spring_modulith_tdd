@@ -70,10 +70,12 @@ class PetManagementIT {
 
 	@Test
 	void save_new_pet_calls_repo_then_publishes_SavePetEvent() {
-		Pet newPet = PetBuilder.aPet().named("Nala")
-				.ownedBy(1)
-				.ofType(PetTypeBuilder.aPetType().withId(2).build())
-				.bornOn(LocalDate.of(2021, 2, 3)).build();
+		Pet newPet = PetBuilder.aPet()
+			.named("Nala")
+			.ownedBy(1)
+			.ofType(PetTypeBuilder.aPetType().withId(2).build())
+			.bornOn(LocalDate.of(2021, 2, 3))
+			.build();
 
 		service.save(newPet);
 

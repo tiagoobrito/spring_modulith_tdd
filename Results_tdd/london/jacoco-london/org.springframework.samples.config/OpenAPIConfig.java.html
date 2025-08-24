@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OpenAPIConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PetClinicModulithAsync</a> &gt; <a href="index.source.html" class="el_package">org.springframework.samples.config</a> &gt; <span class="el_source">OpenAPIConfig.java</span></div><h1>OpenAPIConfig.java</h1><pre class="source lang-java linenums">package org.springframework.samples.config;
+
+import java.util.Collections;
+import java.util.List;
+
+import io.swagger.v3.oas.models.Components;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.servers.Server;
+
+@Configuration
+<span class="fc" id="L19">public class OpenAPIConfig {</span>
+
+	@Bean
+	OpenAPI customOpenAPI() {
+
+<span class="fc" id="L24">		return new OpenAPI().components(new Components())</span>
+<span class="fc" id="L25">			.info(new Info().title(&quot;Petclinic Api Documentation&quot;)</span>
+<span class="fc" id="L26">				.version(&quot;1.0&quot;)</span>
+<span class="fc" id="L27">				.termsOfService(&quot;Petclinic terms of service&quot;)</span>
+<span class="fc" id="L28">				.description(&quot;This is the API documentation of the Spring Petclinic.&quot;)</span>
+<span class="fc" id="L29">				.license(swaggerLicense())</span>
+<span class="fc" id="L30">				.contact(swaggerContact()));</span>
+	}
+
+	private Contact swaggerContact() {
+<span class="fc" id="L34">		Contact petclinicContact = new Contact();</span>
+<span class="fc" id="L35">		petclinicContact.setName(&quot;Miguel Fernandes&quot;);</span>
+<span class="fc" id="L36">		petclinicContact.setEmail(&quot;1211593@isep.ipp.pt&quot;);</span>
+<span class="fc" id="L37">		petclinicContact.setUrl(&quot;https://github.com/miguel1211593/spring_modulith&quot;);</span>
+<span class="fc" id="L38">		return petclinicContact;</span>
+	}
+
+	private License swaggerLicense() {
+<span class="fc" id="L42">		License petClinicLicense = new License();</span>
+<span class="fc" id="L43">		petClinicLicense.setName(&quot;Apache 2.0&quot;);</span>
+<span class="fc" id="L44">		petClinicLicense.setUrl(&quot;https://www.apache.org/licenses/LICENSE-2.0&quot;);</span>
+<span class="fc" id="L45">		petClinicLicense.setExtensions(Collections.emptyMap());</span>
+<span class="fc" id="L46">		return petClinicLicense;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

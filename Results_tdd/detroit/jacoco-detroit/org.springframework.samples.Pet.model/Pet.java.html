@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Pet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PetClinicModulithAsync</a> &gt; <a href="index.source.html" class="el_package">org.springframework.samples.Pet.model</a> &gt; <span class="el_source">Pet.java</span></div><h1>Pet.java</h1><pre class="source lang-java linenums">package org.springframework.samples.Pet.model;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import org.jmolecules.ddd.types.ValueObject;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+@Getter
+public class Pet {
+
+<span class="fc" id="L17">	private Integer id;</span>
+
+	@NotBlank
+<span class="fc" id="L20">	private String name;</span>
+
+	@DateTimeFormat(pattern = &quot;yyyy-MM-dd&quot;)
+<span class="fc" id="L23">	private LocalDate birthDate;</span>
+
+<span class="fc" id="L25">	private PetType type;</span>
+
+<span class="fc" id="L27">	private Integer owner_id;</span>
+
+<span class="fc" id="L29">	private Set&lt;Pet.Visit&gt; visits = new LinkedHashSet&lt;&gt;();</span>
+
+<span class="fc" id="L31">	public Pet(Integer id, String name, LocalDate birthDate, PetType type, Integer owner_id) {</span>
+<span class="fc" id="L32">		this.id = id;</span>
+<span class="fc" id="L33">		this.name = name;</span>
+<span class="fc" id="L34">		this.birthDate = birthDate;</span>
+<span class="fc" id="L35">		this.type = type;</span>
+<span class="fc" id="L36">		this.owner_id = owner_id;</span>
+<span class="fc" id="L37">	}</span>
+
+<span class="fc" id="L39">	public Pet() {</span>
+<span class="fc" id="L40">	}</span>
+
+<span class="fc" id="L42">	public record Visit(Integer id, String description, LocalDate visit_date, Integer pet_id) implements ValueObject {</span>
+	}
+
+	public void setId(Integer id) {
+<span class="fc" id="L46">		this.id = id;</span>
+<span class="fc" id="L47">	}</span>
+
+	public void setName(String name) {
+<span class="fc" id="L50">		this.name = name;</span>
+<span class="fc" id="L51">	}</span>
+
+	public void setBirthDate(LocalDate birthDate) {
+<span class="fc" id="L54">		this.birthDate = birthDate;</span>
+<span class="fc" id="L55">	}</span>
+
+	public void setType(PetType type) {
+<span class="fc" id="L58">		this.type = type;</span>
+<span class="fc" id="L59">	}</span>
+
+	public void setOwner_id(Integer owner_id) {
+<span class="fc" id="L62">		this.owner_id = owner_id;</span>
+<span class="fc" id="L63">	}</span>
+
+	public void setVisits(Set&lt;Pet.Visit&gt; visits) {
+<span class="fc" id="L66">		this.visits = visits;</span>
+<span class="fc" id="L67">	}</span>
+
+	@Override
+	public String toString() {
+<span class="nc" id="L71">		return this.getName();</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

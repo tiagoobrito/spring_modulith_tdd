@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OwnerPetRepositoryImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PetClinicModulithAsync</a> &gt; <a href="index.source.html" class="el_package">org.springframework.samples.Owner.repository</a> &gt; <span class="el_source">OwnerPetRepositoryImpl.java</span></div><h1>OwnerPetRepositoryImpl.java</h1><pre class="source lang-java linenums">package org.springframework.samples.Owner.repository;
+
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.samples.Owner.service.OwnerPetRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.samples.Owner.model.OwnerPet;
+
+import java.util.List;
+import java.util.Set;
+
+@Repository
+public class OwnerPetRepositoryImpl implements OwnerPetRepository {
+
+	private final JdbcClient jdbcClient;
+
+<span class="fc" id="L17">	public OwnerPetRepositoryImpl(@Qualifier(&quot;ownerJdbcClient&quot;) JdbcClient jdbcClient) {</span>
+<span class="fc" id="L18">		this.jdbcClient = jdbcClient;</span>
+<span class="fc" id="L19">	}</span>
+
+	@Override
+	public List&lt;OwnerPet&gt; findPetByOwnerId(Integer id) {
+<span class="fc" id="L23">		return jdbcClient.sql(&quot;SELECT * FROM owner_pets WHERE owner_id = ?&quot;).param(id).query(OwnerPet.class).list();</span>
+	}
+
+	@Override
+	public OwnerPet findById(Integer id) {
+<span class="nc" id="L28">		return jdbcClient.sql(&quot;SELECT * FROM owner_pets WHERE id = ?&quot;).param(id).query(OwnerPet.class).single();</span>
+	}
+
+	@Override
+	public void save(boolean isNew, OwnerPet pet) {
+<span class="nc bnc" id="L33" title="All 2 branches missed.">		if (isNew) {</span>
+<span class="nc" id="L34">			jdbcClient.sql(&quot;INSERT INTO owner_pets (name, birth_date, owner_id, type_name) VALUES (?, ?, ?, ?)&quot;)</span>
+<span class="nc" id="L35">				.params(pet.getName(), pet.getBirthDate(), pet.getOwner_id(), pet.getType_name())</span>
+<span class="nc" id="L36">				.update();</span>
+		}
+		else {
+<span class="nc" id="L39">			jdbcClient.sql(&quot;UPDATE owner_pets SET name = ?, birth_date = ?, owner_id = ?, type_name = ? WHERE id = ?&quot;)</span>
+<span class="nc" id="L40">				.params(pet.getName(), pet.getBirthDate(), pet.getOwner_id(), pet.getType_name(), pet.getId())</span>
+<span class="nc" id="L41">				.update();</span>
+		}
+<span class="nc" id="L43">	}</span>
+
+	@Override
+	public void saveVisit(OwnerPet.Visit visit) {
+<span class="nc bnc" id="L47" title="All 2 branches missed.">		if (visit.id() == null) {</span>
+<span class="nc" id="L48">			jdbcClient.sql(&quot;INSERT INTO owner_visits (pet_id, visit_date, description) VALUES (?, ?, ?)&quot;)</span>
+<span class="nc" id="L49">				.params(visit.pet_id(), visit.visit_date(), visit.description())</span>
+<span class="nc" id="L50">				.update();</span>
+		}
+		else {
+<span class="nc" id="L53">			jdbcClient.sql(&quot;UPDATE owner_visits SET pet_id = ?, visit_date = ?, description = ? WHERE id = ?&quot;)</span>
+<span class="nc" id="L54">				.params(visit.pet_id(), visit.visit_date(), visit.description(), visit.id())</span>
+<span class="nc" id="L55">				.update();</span>
+		}
+<span class="nc" id="L57">	}</span>
+
+	@Override
+	public Set&lt;OwnerPet.Visit&gt; findVisitByPetId(Integer id) {
+<span class="fc" id="L61">		return jdbcClient.sql(&quot;SELECT * FROM owner_visits WHERE pet_id = ?&quot;)</span>
+<span class="fc" id="L62">			.param(id)</span>
+<span class="fc" id="L63">			.query(OwnerPet.Visit.class)</span>
+<span class="fc" id="L64">			.set();</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

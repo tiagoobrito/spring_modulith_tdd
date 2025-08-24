@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OwnerPetBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PetClinicModulithAsync</a> &gt; <a href="index.source.html" class="el_package">org.springframework.samples.Owner.model</a> &gt; <span class="el_source">OwnerPetBuilder.java</span></div><h1>OwnerPetBuilder.java</h1><pre class="source lang-java linenums">package org.springframework.samples.Owner.model;
+
+import java.time.LocalDate;
+
+<span class="fc" id="L5">public class OwnerPetBuilder {</span>
+
+	private Integer id;
+
+<span class="fc" id="L9">	private String name = &quot;Luna&quot;;</span>
+
+<span class="fc" id="L11">	private LocalDate birthDate = LocalDate.of(2015, 11, 11);</span>
+
+<span class="fc" id="L13">	private Integer owner_id = 1;</span>
+
+<span class="fc" id="L15">	private String type_name = &quot;dog&quot;;</span>
+
+	public static OwnerPetBuilder aPet() {
+<span class="fc" id="L18">		return new OwnerPetBuilder();</span>
+	}
+
+	public OwnerPetBuilder withId(Integer id) {
+<span class="fc" id="L22">		this.id = id;</span>
+<span class="fc" id="L23">		return this;</span>
+	}
+
+	public OwnerPetBuilder withName(String name) {
+<span class="fc" id="L27">		this.name = name;</span>
+<span class="fc" id="L28">		return this;</span>
+	}
+
+	public OwnerPetBuilder bornOn(LocalDate birthDate) {
+<span class="fc" id="L32">		this.birthDate = birthDate;</span>
+<span class="fc" id="L33">		return this;</span>
+	}
+
+	public OwnerPetBuilder withOwnerId(Integer ownerId) {
+<span class="fc" id="L37">		this.owner_id = ownerId;</span>
+<span class="fc" id="L38">		return this;</span>
+	}
+
+	public OwnerPetBuilder ofType(String typeName) {
+<span class="fc" id="L42">		this.type_name = typeName;</span>
+<span class="fc" id="L43">		return this;</span>
+	}
+
+	public OwnerPet build() {
+<span class="fc" id="L47">		OwnerPet p = new OwnerPet();</span>
+<span class="fc" id="L48">		p.setId(id);</span>
+<span class="fc" id="L49">		p.setName(name);</span>
+<span class="fc" id="L50">		p.setBirthDate(birthDate);</span>
+<span class="fc" id="L51">		p.setOwner_id(owner_id);</span>
+<span class="fc" id="L52">		p.setType_name(type_name);</span>
+<span class="fc" id="L53">		return p;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -88,7 +88,7 @@
         <profile>
             <id>detroit</id>
             <properties>
-                <test.includes>**/detroit_london/**/classicist/**/*Test*.java,**/detroit_london/**/classicist/**/*IT*.java</test.includes>
+                <test.includes>org.springframework.samples.detroit_london.**.classicist.**.*Tests,org.springframework.samples.detroit_london.**.classicist.**.*IT</test.includes>
                 <jacoco.report.dir>${project.build.directory}/jacoco-detroit</jacoco.report.dir>
             </properties>
         </profile>
@@ -97,7 +97,7 @@
         <profile>
             <id>london</id>
             <properties>
-                <test.includes>**/detroit_london/**/mockist/**/*Test*.java,**/detroit_london/**/mockist/**/*IT*.java</test.includes>
+                <test.includes>org.springframework.samples.detroit_london.**.mockist.**.*Tests,org.springframework.samples.detroit_london.**.mockist.**.*IT</test.includes>
                 <jacoco.report.dir>${project.build.directory}/jacoco-london</jacoco.report.dir>
             </properties>
         </profile>

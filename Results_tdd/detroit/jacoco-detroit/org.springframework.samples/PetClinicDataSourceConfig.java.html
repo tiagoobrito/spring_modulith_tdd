@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PetClinicDataSourceConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PetClinicModulithAsync</a> &gt; <a href="index.source.html" class="el_package">org.springframework.samples</a> &gt; <span class="el_source">PetClinicDataSourceConfig.java</span></div><h1>PetClinicDataSourceConfig.java</h1><pre class="source lang-java linenums">package org.springframework.samples;
+
+import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.jdbc.init.DataSourceScriptDatabaseInitializer;
+import org.springframework.boot.sql.init.DatabaseInitializationMode;
+import org.springframework.boot.sql.init.DatabaseInitializationSettings;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+
+import javax.sql.DataSource;
+import java.util.List;
+
+@Configuration(proxyBeanMethods = false)
+<span class="fc" id="L19">public class PetClinicDataSourceConfig {</span>
+
+	// OWNER
+	// ------------------------------------------------------------------------------------
+
+	@Bean
+	@Primary
+	@ConfigurationProperties(&quot;app.datasource.owner&quot;)
+	public DataSourceProperties ownerDataSourceProperties() {
+<span class="fc" id="L28">		return new DataSourceProperties();</span>
+	}
+
+	@Bean
+	@Primary
+	public DataSource ownerDataSource(DataSourceProperties ownerDataSourceProperties) {
+<span class="nc" id="L34">		return ownerDataSourceProperties.initializeDataSourceBuilder().type(HikariDataSource.class).build();</span>
+	}
+
+	@Bean
+	DataSourceScriptDatabaseInitializer ownerDataSourceScriptDatabaseInitializer(
+			@Qualifier(&quot;ownerDataSource&quot;) DataSource dataSource) {
+<span class="fc" id="L40">		var settings = new DatabaseInitializationSettings();</span>
+<span class="fc" id="L41">		settings.setSchemaLocations(List.of(&quot;classpath*:db/Owner/schema.sql&quot;));</span>
+<span class="fc" id="L42">		settings.setDataLocations(List.of(&quot;classpath*:db/Owner/data.sql&quot;));</span>
+<span class="fc" id="L43">		settings.setMode(DatabaseInitializationMode.EMBEDDED);</span>
+<span class="fc" id="L44">		return new DataSourceScriptDatabaseInitializer(dataSource, settings);</span>
+	}
+
+	// PET
+	// ------------------------------------------------------------------------------------
+
+	@Bean
+	@ConfigurationProperties(&quot;app.datasource.pet&quot;)
+	public DataSourceProperties petDataSourceProperties() {
+<span class="fc" id="L53">		return new DataSourceProperties();</span>
+	}
+
+	@Bean
+	public DataSource petDataSource(
+			@Qualifier(&quot;petDataSourceProperties&quot;) DataSourceProperties petDataSourceProperties) {
+<span class="fc" id="L59">		return DataSourceBuilder.create()</span>
+<span class="fc" id="L60">			.url(petDataSourceProperties.getUrl())</span>
+<span class="fc" id="L61">			.username(petDataSourceProperties.getUsername())</span>
+<span class="fc" id="L62">			.password(petDataSourceProperties.getPassword())</span>
+<span class="fc" id="L63">			.build();</span>
+	}
+
+	@Bean
+	DataSourceScriptDatabaseInitializer petDataSourceScriptDatabaseInitializer(
+			@Qualifier(&quot;petDataSource&quot;) DataSource dataSource) {
+<span class="fc" id="L69">		var settings = new DatabaseInitializationSettings();</span>
+<span class="fc" id="L70">		settings.setSchemaLocations(List.of(&quot;classpath*:db/Pet/schema.sql&quot;));</span>
+<span class="fc" id="L71">		settings.setDataLocations(List.of(&quot;classpath*:db/Pet/data.sql&quot;));</span>
+<span class="fc" id="L72">		settings.setMode(DatabaseInitializationMode.EMBEDDED);</span>
+<span class="fc" id="L73">		return new DataSourceScriptDatabaseInitializer(dataSource, settings);</span>
+	}
+
+	// VET
+	// ------------------------------------------------------------------------------------
+
+	@Bean
+	@ConfigurationProperties(&quot;app.datasource.vet&quot;)
+	public DataSourceProperties vetDataSourceProperties() {
+<span class="fc" id="L82">		return new DataSourceProperties();</span>
+	}
+
+	@Bean
+	public DataSource vetDataSource(
+			@Qualifier(&quot;vetDataSourceProperties&quot;) DataSourceProperties vetDataSourceProperties) {
+<span class="fc" id="L88">		return DataSourceBuilder.create()</span>
+<span class="fc" id="L89">			.url(vetDataSourceProperties.getUrl())</span>
+<span class="fc" id="L90">			.username(vetDataSourceProperties.getUsername())</span>
+<span class="fc" id="L91">			.password(vetDataSourceProperties.getPassword())</span>
+<span class="fc" id="L92">			.build();</span>
+	}
+
+	@Bean
+	DataSourceScriptDatabaseInitializer vetDataSourceScriptDatabaseInitializer(
+			@Qualifier(&quot;vetDataSource&quot;) DataSource dataSource) {
+<span class="fc" id="L98">		var settings = new DatabaseInitializationSettings();</span>
+<span class="fc" id="L99">		settings.setSchemaLocations(List.of(&quot;classpath*:db/Vet/schema.sql&quot;));</span>
+<span class="fc" id="L100">		settings.setDataLocations(List.of(&quot;classpath*:db/Vet/data.sql&quot;));</span>
+<span class="fc" id="L101">		settings.setMode(DatabaseInitializationMode.EMBEDDED);</span>
+<span class="fc" id="L102">		return new DataSourceScriptDatabaseInitializer(dataSource, settings);</span>
+	}
+
+	// VISIT
+	// ------------------------------------------------------------------------------------
+
+	@Bean
+	@ConfigurationProperties(&quot;app.datasource.visit&quot;)
+	public DataSourceProperties visitDataSourceProperties() {
+<span class="fc" id="L111">		return new DataSourceProperties();</span>
+	}
+
+	@Bean
+	public DataSource visitDataSource(
+			@Qualifier(&quot;visitDataSourceProperties&quot;) DataSourceProperties visitDataSourceProperties) {
+<span class="fc" id="L117">		return DataSourceBuilder.create()</span>
+<span class="fc" id="L118">			.url(visitDataSourceProperties.getUrl())</span>
+<span class="fc" id="L119">			.username(visitDataSourceProperties.getUsername())</span>
+<span class="fc" id="L120">			.password(visitDataSourceProperties.getPassword())</span>
+<span class="fc" id="L121">			.build();</span>
+	}
+
+	@Bean
+	DataSourceScriptDatabaseInitializer visitDataSourceScriptDatabaseInitializer(
+			@Qualifier(&quot;visitDataSource&quot;) DataSource dataSource) {
+<span class="fc" id="L127">		var settings = new DatabaseInitializationSettings();</span>
+<span class="fc" id="L128">		settings.setSchemaLocations(List.of(&quot;classpath*:db/Visit/schema.sql&quot;));</span>
+<span class="fc" id="L129">		settings.setDataLocations(List.of(&quot;classpath*:db/Visit/data.sql&quot;));</span>
+<span class="fc" id="L130">		settings.setMode(DatabaseInitializationMode.EMBEDDED);</span>
+<span class="fc" id="L131">		return new DataSourceScriptDatabaseInitializer(dataSource, settings);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
