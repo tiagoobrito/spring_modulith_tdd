@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PetRepositoryImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PetClinicModulithAsync</a> &gt; <a href="index.source.html" class="el_package">org.springframework.samples.Pet.repository</a> &gt; <span class="el_source">PetRepositoryImpl.java</span></div><h1>PetRepositoryImpl.java</h1><pre class="source lang-java linenums">package org.springframework.samples.Pet.repository;
+
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.samples.Pet.model.Pet;
+import org.springframework.samples.Pet.service.PetRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public class PetRepositoryImpl implements PetRepository {
+
+	private final JdbcClient jdbcClient;
+
+<span class="nc" id="L17">	public PetRepositoryImpl(@Qualifier(&quot;petJdbcClient&quot;) JdbcClient jdbcClient) {</span>
+<span class="nc" id="L18">		this.jdbcClient = jdbcClient;</span>
+<span class="nc" id="L19">	}</span>
+
+	@Override
+	public List&lt;Pet&gt; findPetByOwnerId(Integer id) {
+<span class="nc" id="L23">		return jdbcClient.sql(&quot;SELECT * FROM pets WHERE owner_id = ?&quot;).param(id).query(Pet.class).list();</span>
+	}
+
+	@Override
+	public Optional&lt;Pet&gt; findPetByName(String name) {
+<span class="nc" id="L28">		return jdbcClient.sql(&quot;SELECT * FROM pets WHERE name = ?&quot;).param(name).query(Pet.class).optional();</span>
+	}
+
+	@Override
+	public Pet findById(Integer id) {
+<span class="nc" id="L33">		return jdbcClient.sql(&quot;SELECT * FROM pets WHERE id = ?&quot;).param(id).query(Pet.class).single();</span>
+	}
+
+	@Override
+	public void save(Pet pet, boolean isNew) {
+<span class="nc bnc" id="L38" title="All 2 branches missed.">		if (isNew) {</span>
+<span class="nc" id="L39">			jdbcClient.sql(&quot;INSERT INTO pets (name, owner_id, type_id,birth_date ) VALUES (?, ?, ?, ?)&quot;)</span>
+<span class="nc" id="L40">				.params(pet.getName(), pet.getOwner_id(), pet.getType().getId(), pet.getBirthDate())</span>
+<span class="nc" id="L41">				.update();</span>
+		}
+		else {
+<span class="nc" id="L44">			jdbcClient.sql(&quot;UPDATE pets SET name = ?, owner_id = ?, type_id = ?, birth_date = ? WHERE id = ?&quot;)</span>
+<span class="nc" id="L45">				.params(pet.getName(), pet.getOwner_id(), pet.getType().getId(), pet.getBirthDate(), pet.getId())</span>
+<span class="nc" id="L46">				.update();</span>
+		}
+<span class="nc" id="L48">	}</span>
+
+	@Override
+	public void save(Pet.Visit petVisit) {
+<span class="nc" id="L52">		jdbcClient.sql(&quot;INSERT INTO pet_visit (pet_id, visit_date, description) VALUES (?, ?, ?)&quot;)</span>
+<span class="nc" id="L53">			.params(petVisit.pet_id(), petVisit.visit_date(), petVisit.description())</span>
+<span class="nc" id="L54">			.update();</span>
+
+<span class="nc" id="L56">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

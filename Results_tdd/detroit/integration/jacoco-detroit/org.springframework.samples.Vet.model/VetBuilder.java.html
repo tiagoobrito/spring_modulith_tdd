@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VetBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PetClinicModulithAsync</a> &gt; <a href="index.source.html" class="el_package">org.springframework.samples.Vet.model</a> &gt; <span class="el_source">VetBuilder.java</span></div><h1>VetBuilder.java</h1><pre class="source lang-java linenums">package org.springframework.samples.Vet.model;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+/** Fluent builder for Vet test data. */
+<span class="nc" id="L7">public class VetBuilder {</span>
+
+	private Integer id;
+
+<span class="nc" id="L11">	private String firstName = &quot;James&quot;;</span>
+
+<span class="nc" id="L13">	private String lastName = &quot;Carter&quot;;</span>
+
+<span class="nc" id="L15">	private final Set&lt;Specialty&gt; specialties = new LinkedHashSet&lt;&gt;();</span>
+
+	public static VetBuilder aVet() {
+<span class="nc" id="L18">		return new VetBuilder();</span>
+	}
+
+	public VetBuilder withId(Integer id) {
+<span class="nc" id="L22">		this.id = id;</span>
+<span class="nc" id="L23">		return this;</span>
+	}
+
+	public VetBuilder named(String first, String last) {
+<span class="nc" id="L27">		this.firstName = first;</span>
+<span class="nc" id="L28">		this.lastName = last;</span>
+<span class="nc" id="L29">		return this;</span>
+	}
+
+	public VetBuilder withSpecialty(Specialty spec) {
+<span class="nc" id="L33">		this.specialties.add(spec);</span>
+<span class="nc" id="L34">		return this;</span>
+	}
+
+	public VetBuilder withSpecialties(Set&lt;Specialty&gt; specs) {
+<span class="nc" id="L38">		this.specialties.addAll(specs);</span>
+<span class="nc" id="L39">		return this;</span>
+	}
+
+	public Vet build() {
+<span class="nc" id="L43">		Vet v = new Vet();</span>
+<span class="nc" id="L44">		v.setId(id);</span>
+<span class="nc" id="L45">		v.setFirstName(firstName);</span>
+<span class="nc" id="L46">		v.setLastName(lastName);</span>
+<span class="nc" id="L47">		v.setSpecialties(new LinkedHashSet&lt;&gt;(specialties));</span>
+<span class="nc" id="L48">		return v;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

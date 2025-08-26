@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VisitController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PetClinicModulithAsync</a> &gt; <a href="index.source.html" class="el_package">org.springframework.samples.Visit.controller</a> &gt; <span class="el_source">VisitController.java</span></div><h1>VisitController.java</h1><pre class="source lang-java linenums">
+package org.springframework.samples.Visit.controller;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.samples.Visit.VisitExternalAPI;
+import org.springframework.samples.Visit.model.Visit;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.time.LocalDate;
+import java.util.Map;
+
+@Controller
+<span class="fc" id="L22">@RequiredArgsConstructor</span>
+@Tag(name = &quot;visit-controller&quot;)
+public class VisitController {
+
+	private final VisitExternalAPI visitExternalAPI;
+
+	@InitBinder
+	public void setAllowedFields(WebDataBinder dataBinder) {
+<span class="nc" id="L30">		dataBinder.setDisallowedFields(&quot;id&quot;);</span>
+<span class="nc" id="L31">	}</span>
+
+	@ModelAttribute(&quot;visit&quot;)
+	public Visit loadPetWithVisit(@PathVariable(&quot;petId&quot;) int petId, Map&lt;String, Object&gt; model) {
+<span class="nc" id="L35">		Visit visit = new Visit();</span>
+<span class="nc" id="L36">		model.put(&quot;visit&quot;, visit);</span>
+<span class="nc" id="L37">		return visit;</span>
+	}
+
+	@GetMapping(&quot;/owners/{ownerId}/pets/{petId}/visits/new&quot;)
+	@Operation(summary = &quot;Initiate New Visit Form&quot;)
+	public String initNewVisitForm(@PathVariable(&quot;ownerId&quot;) int ownerId, @PathVariable(&quot;petId&quot;) int petId,
+			ModelMap model) {
+
+<span class="nc" id="L45">		Visit visit = new Visit();</span>
+<span class="nc" id="L46">		model.put(&quot;visit&quot;, visit);</span>
+<span class="nc" id="L47">		return &quot;pets/createOrUpdateVisitForm&quot;;</span>
+	}
+
+	@PostMapping(&quot;/owners/{ownerId}/pets/{petId}/visits/new&quot;)
+	@Operation(summary = &quot;Process New Visit Form&quot;)
+	public String processNewVisitForm(@PathVariable(&quot;petId&quot;) int petId, @Valid Visit visit,
+			RedirectAttributes redirectAttributes, BindingResult result) {
+<span class="nc bnc" id="L54" title="All 2 branches missed.">		if (visit.getDescription().isBlank()) {</span>
+<span class="nc" id="L55">			result.rejectValue(&quot;description&quot;, &quot;null&quot;, &quot;não deve estar em branco&quot;);</span>
+		}
+<span class="nc bnc" id="L57" title="All 2 branches missed.">		if (result.hasErrors()) {</span>
+<span class="nc" id="L58">			return &quot;pets/createOrUpdateVisitForm&quot;;</span>
+		}
+<span class="nc" id="L60">		visit.setPet_id(petId);</span>
+<span class="nc" id="L61">		visitExternalAPI.save(visit);</span>
+<span class="nc" id="L62">		redirectAttributes.addFlashAttribute(&quot;message&quot;, &quot;Your visit has been booked&quot;);</span>
+<span class="nc" id="L63">		return &quot;redirect:/owners/{ownerId}&quot;;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

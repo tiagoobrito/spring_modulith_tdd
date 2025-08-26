@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OwnerController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PetClinicModulithAsync</a> &gt; <a href="index.source.html" class="el_package">org.springframework.samples.Owner.controller</a> &gt; <span class="el_source">OwnerController.java</span></div><h1>OwnerController.java</h1><pre class="source lang-java linenums">package org.springframework.samples.Owner.controller;
+
+import io.swagger.v3.oas.annotations.Operation;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.samples.Owner.OwnerExternalAPI;
+import org.springframework.samples.Owner.model.Owner;
+import org.springframework.samples.Owner.model.OwnerPet;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
+import java.util.Map;
+
+@Controller
+<span class="fc" id="L29">@RequiredArgsConstructor</span>
+@Tag(name = &quot;owner-controller&quot;)
+public class OwnerController {
+
+	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = &quot;owners/createOrUpdateOwnerForm&quot;;
+
+	@Autowired
+	private final OwnerExternalAPI ownerExternalAPI;
+
+	@InitBinder
+	public void setAllowedFields(WebDataBinder dataBinder) {
+<span class="nc" id="L40">		dataBinder.setDisallowedFields(&quot;id&quot;);</span>
+<span class="nc" id="L41">	}</span>
+
+	@ModelAttribute(&quot;owner1&quot;)
+	public Owner findOwner(@PathVariable(name = &quot;ownerId&quot;, required = false) Integer ownerId) {
+<span class="nc bnc" id="L45" title="All 2 branches missed.">		return ownerId == null ? new Owner() : this.ownerExternalAPI.findById(ownerId);</span>
+	}
+
+	@GetMapping(&quot;/owners/new&quot;)
+	@Operation(summary = &quot;Initiate Owner Creation Form&quot;)
+	public String initCreationForm(Map&lt;String, Object&gt; model) {
+<span class="fc" id="L51">		Owner owner = new Owner();</span>
+<span class="fc" id="L52">		model.put(&quot;owner&quot;, owner);</span>
+<span class="fc" id="L53">		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;</span>
+	}
+
+	@PostMapping(&quot;/owners/new&quot;)
+	@Operation(summary = &quot;Process Owner Creation Form&quot;)
+	public String processCreationForm(@Valid Owner owner, BindingResult result, RedirectAttributes redirectAttributes,
+			ModelMap model) {
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">		if (StringUtils.hasText(owner.getLastName())</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">				&amp;&amp; ownerExternalAPI.findByName(owner.getFirstName(), owner.getLastName()).isPresent()) {</span>
+<span class="fc" id="L62">			result.rejectValue(&quot;firstName&quot;, &quot;duplicate&quot;, &quot;already exists&quot;);</span>
+<span class="fc" id="L63">			result.rejectValue(&quot;lastName&quot;, &quot;duplicate&quot;, &quot;already exists&quot;);</span>
+		}
+
+<span class="fc bfc" id="L66" title="All 2 branches covered.">		if (result.hasErrors()) {</span>
+<span class="fc" id="L67">			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;</span>
+		}
+
+<span class="fc" id="L70">		Integer new_owner_id = ownerExternalAPI.save(owner);</span>
+<span class="fc" id="L71">		redirectAttributes.addFlashAttribute(&quot;message&quot;, &quot;New Owner Created&quot;);</span>
+<span class="fc" id="L72">		return &quot;redirect:/owners/&quot; + new_owner_id;</span>
+	}
+
+	@GetMapping(&quot;/owners/find&quot;)
+	@Operation(summary = &quot;Initiate Find Owner Form&quot;)
+	public String initFindForm() {
+<span class="fc" id="L78">		return &quot;owners/findOwners&quot;;</span>
+	}
+
+	@GetMapping(&quot;/owners&quot;)
+	@Operation(summary = &quot;Process Find Owner Form&quot;)
+	public String processFindForm(@RequestParam(defaultValue = &quot;1&quot;) int page, Owner owner, BindingResult result,
+			Model model) {
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">		if (owner.getLastName() == null) {</span>
+<span class="nc" id="L86">			owner.setLastName(&quot;&quot;);</span>
+		}
+<span class="fc" id="L88">		Page&lt;Owner&gt; ownersResults = findPaginatedForOwnersLastName(page, owner.getLastName());</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">		if (ownersResults.isEmpty()) {</span>
+<span class="fc" id="L90">			result.rejectValue(&quot;lastName&quot;, &quot;notFound&quot;, &quot;not found&quot;);</span>
+<span class="fc" id="L91">			return &quot;owners/findOwners&quot;;</span>
+		}
+<span class="fc bfc" id="L93" title="All 2 branches covered.">		if (ownersResults.getTotalElements() == 1) {</span>
+<span class="fc" id="L94">			owner = ownersResults.iterator().next();</span>
+<span class="fc" id="L95">			return &quot;redirect:/owners/&quot; + owner.getId();</span>
+		}
+<span class="fc" id="L97">		return addPaginationModel(page, model, ownersResults);</span>
+	}
+
+	@GetMapping(&quot;/owners/{ownerId}/edit&quot;)
+	@Operation(summary = &quot;Initiate Owner Update Form&quot;)
+	public String initUpdateOwnerForm(@PathVariable(&quot;ownerId&quot;) int ownerId, ModelMap model) {
+<span class="fc" id="L103">		Owner owner = this.ownerExternalAPI.findById(ownerId);</span>
+<span class="fc" id="L104">		model.put(&quot;owner&quot;, owner);</span>
+<span class="fc" id="L105">		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;</span>
+	}
+
+	@PostMapping(&quot;/owners/{ownerId}/edit&quot;)
+	@Operation(summary = &quot;Process Owner Update Form&quot;)
+	public String processUpdateOwnerForm(@Valid Owner owner, BindingResult result, @PathVariable(&quot;ownerId&quot;) int ownerId,
+			RedirectAttributes redirectAttributes, ModelMap model) {
+<span class="fc bfc" id="L112" title="All 2 branches covered.">		if (result.hasErrors()) {</span>
+<span class="fc" id="L113">			model.addAttribute(&quot;ownerMessage&quot;, &quot;There was an error updating the owner.&quot;);</span>
+<span class="fc" id="L114">			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;</span>
+		}
+<span class="fc" id="L116">		List&lt;OwnerPet&gt; ownerPets = ownerExternalAPI.findPetByOwner(ownerId);</span>
+<span class="fc" id="L117">		owner.setPets(ownerPets);</span>
+<span class="fc" id="L118">		owner.setId(ownerId);</span>
+<span class="fc" id="L119">		this.ownerExternalAPI.save(owner);</span>
+<span class="fc" id="L120">		redirectAttributes.addFlashAttribute(&quot;message&quot;, &quot;Owner Values Updated&quot;);</span>
+<span class="fc" id="L121">		return &quot;redirect:/owners/{ownerId}&quot;;</span>
+	}
+
+	@GetMapping(&quot;/owners/{ownerId}&quot;)
+	@Operation(summary = &quot;Show Owner Details&quot;)
+	public ModelAndView showOwner(@PathVariable(&quot;ownerId&quot;) int ownerId) {
+<span class="fc" id="L127">		ModelAndView mav = new ModelAndView(&quot;owners/ownerDetails&quot;);</span>
+<span class="fc" id="L128">		Owner owner = this.ownerExternalAPI.findById(ownerId);</span>
+<span class="fc" id="L129">		mav.addObject(owner);</span>
+<span class="fc" id="L130">		return mav;</span>
+	}
+
+	private Page&lt;Owner&gt; findPaginatedForOwnersLastName(int page, String lastname) {
+<span class="fc" id="L134">		int pageSize = 5;</span>
+<span class="fc" id="L135">		Pageable pageable = PageRequest.of(page - 1, pageSize);</span>
+<span class="fc" id="L136">		return ownerExternalAPI.findByLastName(lastname, pageable);</span>
+	}
+
+	private String addPaginationModel(int page, Model model, Page&lt;Owner&gt; paginated) {
+<span class="fc" id="L140">		List&lt;Owner&gt; listOwners = paginated.getContent();</span>
+<span class="fc" id="L141">		model.addAttribute(&quot;currentPage&quot;, page);</span>
+<span class="fc" id="L142">		model.addAttribute(&quot;totalPages&quot;, paginated.getTotalPages());</span>
+<span class="fc" id="L143">		model.addAttribute(&quot;totalItems&quot;, paginated.getTotalElements());</span>
+<span class="fc" id="L144">		model.addAttribute(&quot;listOwners&quot;, listOwners);</span>
+<span class="fc" id="L145">		return &quot;owners/ownersList&quot;;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OwnerPetVisitBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PetClinicModulithAsync</a> &gt; <a href="index.source.html" class="el_package">org.springframework.samples.Owner.model</a> &gt; <span class="el_source">OwnerPetVisitBuilder.java</span></div><h1>OwnerPetVisitBuilder.java</h1><pre class="source lang-java linenums">package org.springframework.samples.Owner.model;
+
+import java.time.LocalDate;
+
+/** Fluent builder for OwnerPet.Visit (record-like) test data. */
+<span class="nc" id="L6">public class OwnerPetVisitBuilder {</span>
+
+	private Integer id;
+
+<span class="nc" id="L10">	private Integer pet_id = 1;</span>
+
+<span class="nc" id="L12">	private LocalDate visit_date = LocalDate.now();</span>
+
+<span class="nc" id="L14">	private String description = &quot;Routine check&quot;;</span>
+
+	public static OwnerPetVisitBuilder aVisit() {
+<span class="nc" id="L17">		return new OwnerPetVisitBuilder();</span>
+	}
+
+	public OwnerPetVisitBuilder withId(Integer id) {
+<span class="nc" id="L21">		this.id = id;</span>
+<span class="nc" id="L22">		return this;</span>
+	}
+
+	public OwnerPetVisitBuilder forPet(Integer petId) {
+<span class="nc" id="L26">		this.pet_id = petId;</span>
+<span class="nc" id="L27">		return this;</span>
+	}
+
+	public OwnerPetVisitBuilder on(LocalDate date) {
+<span class="nc" id="L31">		this.visit_date = date;</span>
+<span class="nc" id="L32">		return this;</span>
+	}
+
+	public OwnerPetVisitBuilder withDescription(String desc) {
+<span class="nc" id="L36">		this.description = desc;</span>
+<span class="nc" id="L37">		return this;</span>
+	}
+
+	public OwnerPet.Visit build() {
+<span class="nc" id="L41">		return new OwnerPet.Visit(id, description, visit_date, pet_id);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

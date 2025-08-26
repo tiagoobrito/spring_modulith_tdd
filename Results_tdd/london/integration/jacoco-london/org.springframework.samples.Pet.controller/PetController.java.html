@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PetController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PetClinicModulithAsync</a> &gt; <a href="index.source.html" class="el_package">org.springframework.samples.Pet.controller</a> &gt; <span class="el_source">PetController.java</span></div><h1>PetController.java</h1><pre class="source lang-java linenums">package org.springframework.samples.Pet.controller;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.samples.Pet.PetExternalAPI;
+import org.springframework.samples.Pet.model.Pet;
+import org.springframework.samples.Pet.model.PetType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.Optional;
+
+@Controller
+@RequestMapping(&quot;/owners/{ownerId}&quot;)
+<span class="fc" id="L26">@RequiredArgsConstructor</span>
+@Tag(name = &quot;pet-controller&quot;)
+public class PetController {
+
+	private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = &quot;pets/createOrUpdatePetForm&quot;;
+
+	private final PetExternalAPI petExternalAPI;
+
+	@ModelAttribute(&quot;types&quot;)
+	public Collection&lt;PetType&gt; populatePetTypes() {
+<span class="nc" id="L36">		return this.petExternalAPI.findPetTypes();</span>
+	}
+
+	@ModelAttribute(&quot;pet1&quot;)
+	public Pet findPet(@PathVariable(name = &quot;petId&quot;, required = false) Integer petId) {
+<span class="nc bnc" id="L41" title="All 2 branches missed.">		if (petId == null) {</span>
+<span class="nc" id="L42">			return new Pet();</span>
+		}
+<span class="nc" id="L44">		return petExternalAPI.getPetById(petId);</span>
+	}
+
+	@InitBinder(&quot;owner&quot;)
+	public void initOwnerBinder(WebDataBinder dataBinder) {
+<span class="nc" id="L49">		dataBinder.setDisallowedFields(&quot;id&quot;);</span>
+<span class="nc" id="L50">	}</span>
+
+	@GetMapping(&quot;/pets/new&quot;)
+	@Operation(summary = &quot;Initiate Pet Creation Form&quot;)
+	public String initCreationForm(ModelMap model) {
+<span class="nc" id="L55">		Pet pet = new Pet();</span>
+<span class="nc" id="L56">		model.put(&quot;pet&quot;, pet);</span>
+<span class="nc" id="L57">		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;</span>
+	}
+
+	@PostMapping(&quot;/pets/new&quot;)
+	@Operation(summary = &quot;Process Pet Creation Form&quot;)
+	public String processCreationForm(@PathVariable(&quot;ownerId&quot;) int ownerId, @Valid Pet pet, BindingResult result,
+			ModelMap model, RedirectAttributes redirectAttributes) {
+
+<span class="nc" id="L65">		LocalDate currentDate = LocalDate.now();</span>
+<span class="nc bnc" id="L66" title="All 4 branches missed.">		if (pet.getBirthDate() == null || pet.getBirthDate().isAfter(currentDate)) {</span>
+<span class="nc" id="L67">			result.rejectValue(&quot;birthDate&quot;, &quot;typeMismatch.birthDate&quot;);</span>
+		}
+
+<span class="nc bnc" id="L70" title="All 2 branches missed.">		if (result.hasErrors()) {</span>
+<span class="nc" id="L71">			model.put(&quot;pet&quot;, pet);</span>
+<span class="nc" id="L72">			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;</span>
+		}
+
+<span class="nc" id="L75">		pet.setOwner_id(ownerId);</span>
+
+<span class="nc" id="L77">		petExternalAPI.save(pet);</span>
+<span class="nc" id="L78">		redirectAttributes.addFlashAttribute(&quot;message&quot;, &quot;New Pet has been Added&quot;);</span>
+<span class="nc" id="L79">		return &quot;redirect:/owners/{ownerId}&quot;;</span>
+	}
+
+	@GetMapping(&quot;/pets/{petId}/edit&quot;)
+	@Operation(summary = &quot;Initiate Pet Update Form&quot;)
+	public String initUpdateForm(@PathVariable(&quot;petId&quot;) int petId, ModelMap model,
+			RedirectAttributes redirectAttributes) {
+<span class="nc" id="L86">		Pet pet = petExternalAPI.getPetById(petId);</span>
+<span class="nc" id="L87">		model.put(&quot;pet&quot;, pet);</span>
+<span class="nc" id="L88">		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;</span>
+	}
+
+	@PostMapping(&quot;/pets/{petId}/edit&quot;)
+	@Operation(summary = &quot;Process Pet Update Form&quot;)
+	public String processUpdateForm(@PathVariable(&quot;ownerId&quot;) int ownerId, @Valid Pet pet, BindingResult result,
+			ModelMap model, RedirectAttributes redirectAttributes) {
+
+<span class="nc bnc" id="L96" title="All 4 branches missed.">		if (pet.getBirthDate() != null &amp;&amp; pet.getBirthDate().isAfter(LocalDate.now())) {</span>
+<span class="nc" id="L97">			result.rejectValue(&quot;birthDate&quot;, &quot;typeMismatch.birthDate&quot;);</span>
+		}
+
+<span class="nc bnc" id="L100" title="All 2 branches missed.">		if (result.hasErrors()) {</span>
+<span class="nc" id="L101">			model.put(&quot;pet&quot;, pet);</span>
+<span class="nc" id="L102">			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;</span>
+		}
+
+<span class="nc" id="L105">		pet.setOwner_id(ownerId);</span>
+
+<span class="nc" id="L107">		petExternalAPI.save(pet);</span>
+<span class="nc" id="L108">		redirectAttributes.addFlashAttribute(&quot;message&quot;, &quot;Pet details has been edited&quot;);</span>
+<span class="nc" id="L109">		return &quot;redirect:/owners/{ownerId}&quot;;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

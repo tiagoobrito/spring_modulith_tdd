@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VetRepositoryImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PetClinicModulithAsync</a> &gt; <a href="index.source.html" class="el_package">org.springframework.samples.Vet.repository</a> &gt; <span class="el_source">VetRepositoryImpl.java</span></div><h1>VetRepositoryImpl.java</h1><pre class="source lang-java linenums">package org.springframework.samples.Vet.repository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.samples.Pet.model.Pet;
+import org.springframework.samples.Vet.model.Specialty;
+import org.springframework.samples.Vet.model.Vet;
+import org.springframework.samples.Vet.service.VetRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
+
+@Repository
+@Transactional
+public class VetRepositoryImpl implements VetRepository {
+
+	private final JdbcTemplate jdbcTemplate;
+
+	@Autowired
+<span class="nc" id="L30">	public VetRepositoryImpl(@Qualifier(&quot;vetDataSource&quot;) DataSource dataSource) {</span>
+<span class="nc" id="L31">		this.jdbcTemplate = new JdbcTemplate(dataSource);</span>
+<span class="nc" id="L32">	}</span>
+
+	@Override
+	public Collection&lt;Vet&gt; findAll() throws DataAccessException {
+<span class="nc" id="L36">		return jdbcTemplate.query(&quot;SELECT * FROM vets&quot;, new VetRowMapper());</span>
+	}
+
+	@Override
+	public Optional&lt;Vet&gt; findById(Integer id) throws DataAccessException {
+<span class="nc" id="L41">		String selectVetQuery = &quot;SELECT * FROM vets WHERE id = ?&quot;;</span>
+<span class="nc" id="L42">		Vet vet = jdbcTemplate.queryForObject(selectVetQuery, new Object[] { id }, new VetRowMapper());</span>
+
+<span class="nc bnc" id="L44" title="All 2 branches missed.">		if (vet != null) {</span>
+<span class="nc" id="L45">			vet.setSpecialties(findSpecialtiesByVetId(vet.getId()));</span>
+		}
+
+<span class="nc" id="L48">		return Optional.ofNullable(vet);</span>
+	}
+
+	@Override
+	public Page&lt;Vet&gt; findAll(Pageable pageable) throws DataAccessException {
+<span class="nc" id="L53">		String countQuery = &quot;SELECT COUNT(*) FROM vets&quot;;</span>
+<span class="nc" id="L54">		int total = jdbcTemplate.queryForObject(countQuery, Integer.class);</span>
+
+<span class="nc" id="L56">		String selectVetsQuery = &quot;SELECT * FROM vets LIMIT ? OFFSET ?&quot;;</span>
+<span class="nc" id="L57">		List&lt;Vet&gt; vets = jdbcTemplate.query(selectVetsQuery,</span>
+<span class="nc" id="L58">				new Object[] { pageable.getPageSize(), pageable.getOffset() }, new VetRowMapper());</span>
+
+<span class="nc bnc" id="L60" title="All 2 branches missed.">		for (Vet vet : vets) {</span>
+<span class="nc" id="L61">			vet.setSpecialties(findSpecialtiesByVetId(vet.getId()));</span>
+<span class="nc" id="L62">		}</span>
+
+<span class="nc" id="L64">		return new PageImpl&lt;&gt;(vets, pageable, total);</span>
+	}
+
+	private Set&lt;Specialty&gt; findSpecialtiesByVetId(Integer vetId) {
+<span class="nc" id="L68">		String selectSpecialtiesQuery = &quot;SELECT s.id, s.name FROM specialties s JOIN vet_specialties vs ON s.id = vs.specialty_id WHERE vs.vet_id = ?&quot;;</span>
+<span class="nc" id="L69">		return new HashSet&lt;&gt;(</span>
+<span class="nc" id="L70">				jdbcTemplate.query(selectSpecialtiesQuery, new Object[] { vetId }, new SpecialtyRowMapper()));</span>
+	}
+
+	private static class VetRowMapper implements RowMapper&lt;Vet&gt; {
+
+		@Override
+		public Vet mapRow(ResultSet rs, int rowNum) throws SQLException {
+<span class="nc" id="L77">			Vet vet = new Vet();</span>
+<span class="nc" id="L78">			vet.setId(rs.getInt(&quot;id&quot;));</span>
+<span class="nc" id="L79">			vet.setFirstName(rs.getString(&quot;first_name&quot;));</span>
+<span class="nc" id="L80">			vet.setLastName(rs.getString(&quot;last_name&quot;));</span>
+			// Mapear outras propriedades, se necessário
+<span class="nc" id="L82">			return vet;</span>
+		}
+
+	}
+
+	private static class SpecialtyRowMapper implements RowMapper&lt;Specialty&gt; {
+
+		@Override
+		public Specialty mapRow(ResultSet rs, int rowNum) throws SQLException {
+<span class="nc" id="L91">			Specialty specialty = new Specialty();</span>
+<span class="nc" id="L92">			specialty.setId(rs.getInt(&quot;id&quot;));</span>
+<span class="nc" id="L93">			specialty.setName(rs.getString(&quot;name&quot;));</span>
+<span class="nc" id="L94">			return specialty;</span>
+		}
+
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -86,18 +86,32 @@
     <profiles>
         <!-- Detroit / Classicist -->
         <profile>
-            <id>detroit</id>
+            <id>detroit_unitary</id>
             <properties>
-                <test.includes>org.springframework.samples.detroit_london.**.classicist.**.*Tests,org.springframework.samples.detroit_london.**.classicist.**.*IT</test.includes>
+                <test.includes>org.springframework.samples.detroit_london.**.classicist.**.*Tests</test.includes>
+                <jacoco.report.dir>${project.build.directory}/jacoco-detroit</jacoco.report.dir>
+            </properties>
+        </profile>
+        <profile>
+            <id>detroit_integration</id>
+            <properties>
+                <test.includes>org.springframework.samples.detroit_london.**.classicist.**.*IT</test.includes>
                 <jacoco.report.dir>${project.build.directory}/jacoco-detroit</jacoco.report.dir>
             </properties>
         </profile>
 
         <!-- London / Mockist -->
         <profile>
-            <id>london</id>
+            <id>london_unitary</id>
             <properties>
-                <test.includes>org.springframework.samples.detroit_london.**.mockist.**.*Tests,org.springframework.samples.detroit_london.**.mockist.**.*IT</test.includes>
+                <test.includes>org.springframework.samples.detroit_london.**.mockist.**.*Tests</test.includes>
+                <jacoco.report.dir>${project.build.directory}/jacoco-london</jacoco.report.dir>
+            </properties>
+        </profile>
+        <profile>
+            <id>london_integration</id>
+            <properties>
+                <test.includes>org.springframework.samples.detroit_london.**.mockist.**.*IT</test.includes>
                 <jacoco.report.dir>${project.build.directory}/jacoco-london</jacoco.report.dir>
             </properties>
         </profile>
