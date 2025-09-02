@@ -25,10 +25,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-/**
- * London/mockist unit tests for OwnerManagement: - All collaborators mocked - Real domain
- * objects as inputs/outputs - Verify interactions & arguments
- */
 @ExtendWith(MockitoExtension.class)
 class OwnerManagementTests {
 
