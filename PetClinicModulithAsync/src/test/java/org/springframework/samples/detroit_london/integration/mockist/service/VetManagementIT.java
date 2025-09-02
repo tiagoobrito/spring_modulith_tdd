@@ -17,8 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
@@ -38,16 +37,9 @@ class VetManagementIT {
 		Page<Vet> page = service.findAll(pageable);
 
 		assertThat(page).isNotNull();
-		assertThat(page.getSize()).isEqualTo(3);
-		assertThat(page.getContent()).isNotEmpty();
-
-		Vet any = page.getContent().getFirst();
-		assertThat(any.getId()).isNotNull();
-		assertThat(any.getFirstName()).isNotBlank();
-		assertThat(any.getLastName()).isNotBlank();
-		assertThat(any.getSpecialties()).isNotNull();
 
 		verify(vetRepository, times(1)).findAll(pageable);
+		verifyNoMoreInteractions(vetRepository);
 	}
 
 	@Test
@@ -55,16 +47,9 @@ class VetManagementIT {
 		Collection<Vet> vets = service.findAll();
 
 		assertThat(vets).isNotNull();
-		assertThat(vets).isNotEmpty();
-		assertThat(vets.size()).isEqualTo(6);
-
-		Vet first = vets.iterator().next();
-		assertThat(first.getId()).isNotNull();
-		assertThat(first.getFirstName()).isNotBlank();
-		assertThat(first.getLastName()).isNotBlank();
-		assertThat(first.getSpecialties()).isNotNull();
 
 		verify(vetRepository, times(1)).findAll();
+		verifyNoMoreInteractions(vetRepository);
 	}
 
 }

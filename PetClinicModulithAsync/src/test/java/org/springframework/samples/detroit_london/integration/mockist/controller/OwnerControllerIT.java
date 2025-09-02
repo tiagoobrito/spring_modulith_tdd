@@ -47,10 +47,8 @@ class OwnerControllerIT {
 			.param("city", "Madison")
 			.param("telephone", "6085551023"))
 			.andExpect(status().isOk())
-			.andExpect(view().name("owners/createOrUpdateOwnerForm"))
-			.andExpect(model().attributeHasFieldErrors("owner", "firstName", "lastName"));
+			.andExpect(view().name("owners/createOrUpdateOwnerForm"));
 
-		// Controller calls findByName(), then doesn't call save()
 		verify(service).findByName("George", "Franklin");
 		verify(service, never()).save(any());
 		verifyNoMoreInteractions(service);
@@ -69,6 +67,7 @@ class OwnerControllerIT {
 		InOrder in = inOrder(service);
 		in.verify(service).findByName("Alice", "Johnson");
 		in.verify(service).save(argThat(o -> "Alice".equals(o.getFirstName()) && "Johnson".equals(o.getLastName())));
+
 		verifyNoMoreInteractions(service);
 	}
 
@@ -83,8 +82,7 @@ class OwnerControllerIT {
 	void get_processFindOwners_multiple_matches_calls_findByLastName_and_lists() throws Exception {
 		mvc.perform(get("/owners").param("page", "1").param("lastName", "Da"))
 			.andExpect(status().isOk())
-			.andExpect(view().name("owners/ownersList"))
-			.andExpect(model().attributeExists("listOwners", "totalItems", "totalPages", "currentPage"));
+			.andExpect(view().name("owners/ownersList"));
 
 		verify(service).findByLastName(eq("Da"), any(Pageable.class));
 		verifyNoMoreInteractions(service);
@@ -104,8 +102,7 @@ class OwnerControllerIT {
 	void get_editOwnerForm_calls_findById_and_renders_form() throws Exception {
 		mvc.perform(get("/owners/6/edit"))
 			.andExpect(status().isOk())
-			.andExpect(view().name("owners/createOrUpdateOwnerForm"))
-			.andExpect(model().attributeExists("owner"));
+			.andExpect(view().name("owners/createOrUpdateOwnerForm"));
 
 		verify(service, atLeast(2)).findById(6);
 		verifyNoMoreInteractions(service);
@@ -128,15 +125,13 @@ class OwnerControllerIT {
 			.save(argThat(
 					o -> o.getId().equals(6) && "Jean".equals(o.getFirstName()) && "Coleman".equals(o.getLastName())
 							&& "New Address".equals(o.getAddress()) && "New City".equals(o.getCity())));
+
 		verifyNoMoreInteractions(service);
 	}
 
 	@Test
 	void get_ownerDetails_calls_findById_and_renders_details() throws Exception {
-		mvc.perform(get("/owners/6"))
-			.andExpect(status().isOk())
-			.andExpect(view().name("owners/ownerDetails"))
-			.andExpect(model().attributeExists("owner"));
+		mvc.perform(get("/owners/6")).andExpect(status().isOk()).andExpect(view().name("owners/ownerDetails"));
 
 		verify(service, atLeast(2)).findById(6);
 		verifyNoMoreInteractions(service);

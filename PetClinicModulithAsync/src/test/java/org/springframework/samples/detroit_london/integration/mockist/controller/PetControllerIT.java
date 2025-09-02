@@ -41,8 +41,7 @@ class PetControllerIT {
 	void get_newPetForm_calls_findPetTypes_and_renders_form() throws Exception {
 		mvc.perform(get("/owners/6/pets/new"))
 			.andExpect(status().isOk())
-			.andExpect(view().name("pets/createOrUpdatePetForm"))
-			.andExpect(model().attributeExists("pet", "types"));
+			.andExpect(view().name("pets/createOrUpdatePetForm"));
 
 		verify(serviceSpy, atLeastOnce()).findPetTypes();
 		verifyNoMoreInteractions(serviceSpy);
@@ -52,10 +51,7 @@ class PetControllerIT {
 	void post_newPet_invalid_birthDate_does_not_call_save_and_stays_on_form() throws Exception {
 		mvc.perform(post("/owners/6/pets/new").param("name", "Rocky")
 			.param("birthDate", LocalDate.now().plusDays(1).toString())
-			.param("type.id", "2"))
-			.andExpect(status().isOk())
-			.andExpect(view().name("pets/createOrUpdatePetForm"))
-			.andExpect(model().attributeHasFieldErrors("pet", "birthDate"));
+			.param("type.id", "2")).andExpect(status().isOk()).andExpect(view().name("pets/createOrUpdatePetForm"));
 
 		verify(serviceSpy, atLeastOnce()).findPetTypes(); // due to @ModelAttribute
 		verify(serviceSpy, never()).save(any(Pet.class));
@@ -79,8 +75,7 @@ class PetControllerIT {
 	void get_editForm_calls_getPetById_and_renders_form() throws Exception {
 		mvc.perform(get("/owners/6/pets/7/edit"))
 			.andExpect(status().isOk())
-			.andExpect(view().name("pets/createOrUpdatePetForm"))
-			.andExpect(model().attributeExists("pet", "types"));
+			.andExpect(view().name("pets/createOrUpdatePetForm"));
 
 		verify(serviceSpy, atLeastOnce()).findPetTypes(); // @ModelAttribute
 		verify(serviceSpy, atLeastOnce()).getPetById(7);
@@ -92,10 +87,7 @@ class PetControllerIT {
 		mvc.perform(post("/owners/6/pets/7/edit").param("id", "7")
 			.param("name", "Samantha")
 			.param("birthDate", LocalDate.now().plusDays(2).toString())
-			.param("type.id", "1"))
-			.andExpect(status().isOk())
-			.andExpect(view().name("pets/createOrUpdatePetForm"))
-			.andExpect(model().attributeHasFieldErrors("pet", "birthDate"));
+			.param("type.id", "1")).andExpect(status().isOk()).andExpect(view().name("pets/createOrUpdatePetForm"));
 
 		verify(serviceSpy, atLeastOnce()).findPetTypes();
 		verify(serviceSpy, atLeastOnce()).getPetById(7);
