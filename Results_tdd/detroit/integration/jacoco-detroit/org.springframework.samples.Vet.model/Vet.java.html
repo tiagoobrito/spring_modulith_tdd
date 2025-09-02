@@ -14,7 +14,7 @@ import java.util.*;
 @Getter
 public class Vet implements Serializable {
 
-<span class="nc" id="L17">	private Integer id;</span>
+<span class="fc" id="L17">	private Integer id;</span>
 
 <span class="nc" id="L19">	public Vet(String firstName, String lastName, Set&lt;Specialty&gt; specialties) {</span>
 <span class="nc" id="L20">		this.firstName = firstName;</span>
@@ -22,41 +22,41 @@ public class Vet implements Serializable {
 <span class="nc" id="L22">		this.specialties = specialties;</span>
 <span class="nc" id="L23">	}</span>
 
-<span class="nc" id="L25">	public Vet() {</span>
+<span class="fc" id="L25">	public Vet() {</span>
 
-<span class="nc" id="L27">	}</span>
+<span class="fc" id="L27">	}</span>
 
 	public void setId(Integer id) {
-<span class="nc" id="L30">		this.id = id;</span>
-<span class="nc" id="L31">	}</span>
+<span class="fc" id="L30">		this.id = id;</span>
+<span class="fc" id="L31">	}</span>
 
 	public boolean isNew() {
 <span class="nc bnc" id="L34" title="All 2 branches missed.">		return this.id == null;</span>
 	}
 
-<span class="nc" id="L37">	private String firstName;</span>
+<span class="fc" id="L37">	private String firstName;</span>
 
-<span class="nc" id="L39">	private String lastName;</span>
+<span class="fc" id="L39">	private String lastName;</span>
 
 	public void setFirstName(String firstName) {
-<span class="nc" id="L42">		this.firstName = firstName;</span>
-<span class="nc" id="L43">	}</span>
+<span class="fc" id="L42">		this.firstName = firstName;</span>
+<span class="fc" id="L43">	}</span>
 
 	public void setLastName(String lastName) {
-<span class="nc" id="L46">		this.lastName = lastName;</span>
-<span class="nc" id="L47">	}</span>
+<span class="fc" id="L46">		this.lastName = lastName;</span>
+<span class="fc" id="L47">	}</span>
 
 	public void setSpecialties(Set&lt;Specialty&gt; specialties) {
-<span class="nc" id="L50">		this.specialties = specialties;</span>
-<span class="nc" id="L51">	}</span>
+<span class="fc" id="L50">		this.specialties = specialties;</span>
+<span class="fc" id="L51">	}</span>
 
 	private Set&lt;Specialty&gt; specialties;
 
 	protected Set&lt;Specialty&gt; getSpecialtiesInternal() {
-<span class="nc bnc" id="L56" title="All 2 branches missed.">		if (this.specialties == null) {</span>
-<span class="nc" id="L57">			this.specialties = new HashSet&lt;&gt;();</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">		if (this.specialties == null) {</span>
+<span class="fc" id="L57">			this.specialties = new HashSet&lt;&gt;();</span>
 		}
-<span class="nc" id="L59">		return this.specialties;</span>
+<span class="fc" id="L59">		return this.specialties;</span>
 	}
 
 	protected void setSpecialtiesInternal(Set&lt;Specialty&gt; specialties) {
@@ -65,9 +65,9 @@ public class Vet implements Serializable {
 
 	@XmlElement
 	public List&lt;Specialty&gt; getSpecialties() {
-<span class="nc" id="L68">		List&lt;Specialty&gt; sortedSpecs = new ArrayList&lt;&gt;(getSpecialtiesInternal());</span>
-<span class="nc" id="L69">		PropertyComparator.sort(sortedSpecs, new MutableSortDefinition(&quot;name&quot;, true, true));</span>
-<span class="nc" id="L70">		return Collections.unmodifiableList(sortedSpecs);</span>
+<span class="fc" id="L68">		List&lt;Specialty&gt; sortedSpecs = new ArrayList&lt;&gt;(getSpecialtiesInternal());</span>
+<span class="fc" id="L69">		PropertyComparator.sort(sortedSpecs, new MutableSortDefinition(&quot;name&quot;, true, true));</span>
+<span class="fc" id="L70">		return Collections.unmodifiableList(sortedSpecs);</span>
 	}
 
 	public int getNrOfSpecialties() {

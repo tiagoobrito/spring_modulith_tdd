@@ -20,33 +20,33 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 class VisitManagementIT {
 
-    @Autowired
-    VisitManagement service;
+	@Autowired
+	VisitManagement service;
 
-    @Test
-    void save_persists_visit_and_publishes_event() {
-        Visit v = VisitBuilder.aVisit().build();
-        v.setDate(LocalDate.of(2024, 10, 10));
+	@Test
+	void save_persists_visit_and_publishes_event() {
+		Visit v = VisitBuilder.aVisit().build();
+		v.setDate(LocalDate.of(2024, 10, 10));
 
-        service.save(v);
+		service.save(v);
 
-        List<Visit> after = service.findAll();
-        assertThat(after.size()).isEqualTo(5);
-        assertThat(after.stream().anyMatch(saved ->
-                saved.getDescription().equals("Checkup") &&
-                        saved.getId().equals(5)
-        )).isTrue();
-    }
+		List<Visit> after = service.findAll();
+		assertThat(after.size()).isEqualTo(5);
+		assertThat(
+				after.stream().anyMatch(saved -> saved.getDescription().equals("Checkup") && saved.getId().equals(5)))
+			.isTrue();
+	}
 
-    @Test
-    void findAll_returns_visits_from_db() {
-        List<Visit> visits = service.findAll();
+	@Test
+	void findAll_returns_visits_from_db() {
+		List<Visit> visits = service.findAll();
 
-        assertThat(visits).isNotNull();
+		assertThat(visits).isNotNull();
 
-        Visit any = visits.getFirst();
-        assertThat(any.getDate()).isNotNull();
-        assertThat(any.getDescription()).isNotBlank();
-        assertThat(any.getPet_id()).isNotNull();
-    }
+		Visit any = visits.getFirst();
+		assertThat(any.getDate()).isNotNull();
+		assertThat(any.getDescription()).isNotBlank();
+		assertThat(any.getPet_id()).isNotNull();
+	}
+
 }

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.springframework.samples.detroit_london.integration.mockist.controller.OwnerControllerIT
 -------------------------------------------------------------------------------
-Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.259 s -- in org.springframework.samples.detroit_london.integration.mockist.controller.OwnerControllerIT
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.156 s -- in org.springframework.samples.detroit_london.integration.mockist.controller.OwnerControllerIT

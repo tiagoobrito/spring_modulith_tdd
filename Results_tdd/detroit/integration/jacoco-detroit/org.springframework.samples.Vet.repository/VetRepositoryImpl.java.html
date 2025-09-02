@@ -33,7 +33,7 @@ public class VetRepositoryImpl implements VetRepository {
 
 	@Override
 	public Collection&lt;Vet&gt; findAll() throws DataAccessException {
-<span class="nc" id="L36">		return jdbcTemplate.query(&quot;SELECT * FROM vets&quot;, new VetRowMapper());</span>
+<span class="fc" id="L36">		return jdbcTemplate.query(&quot;SELECT * FROM vets&quot;, new VetRowMapper());</span>
 	}
 
 	@Override
@@ -50,36 +50,36 @@ public class VetRepositoryImpl implements VetRepository {
 
 	@Override
 	public Page&lt;Vet&gt; findAll(Pageable pageable) throws DataAccessException {
-<span class="nc" id="L53">		String countQuery = &quot;SELECT COUNT(*) FROM vets&quot;;</span>
-<span class="nc" id="L54">		int total = jdbcTemplate.queryForObject(countQuery, Integer.class);</span>
+<span class="fc" id="L53">		String countQuery = &quot;SELECT COUNT(*) FROM vets&quot;;</span>
+<span class="fc" id="L54">		int total = jdbcTemplate.queryForObject(countQuery, Integer.class);</span>
 
-<span class="nc" id="L56">		String selectVetsQuery = &quot;SELECT * FROM vets LIMIT ? OFFSET ?&quot;;</span>
-<span class="nc" id="L57">		List&lt;Vet&gt; vets = jdbcTemplate.query(selectVetsQuery,</span>
-<span class="nc" id="L58">				new Object[] { pageable.getPageSize(), pageable.getOffset() }, new VetRowMapper());</span>
+<span class="fc" id="L56">		String selectVetsQuery = &quot;SELECT * FROM vets LIMIT ? OFFSET ?&quot;;</span>
+<span class="fc" id="L57">		List&lt;Vet&gt; vets = jdbcTemplate.query(selectVetsQuery,</span>
+<span class="fc" id="L58">				new Object[] { pageable.getPageSize(), pageable.getOffset() }, new VetRowMapper());</span>
 
-<span class="nc bnc" id="L60" title="All 2 branches missed.">		for (Vet vet : vets) {</span>
-<span class="nc" id="L61">			vet.setSpecialties(findSpecialtiesByVetId(vet.getId()));</span>
-<span class="nc" id="L62">		}</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">		for (Vet vet : vets) {</span>
+<span class="fc" id="L61">			vet.setSpecialties(findSpecialtiesByVetId(vet.getId()));</span>
+<span class="fc" id="L62">		}</span>
 
-<span class="nc" id="L64">		return new PageImpl&lt;&gt;(vets, pageable, total);</span>
+<span class="fc" id="L64">		return new PageImpl&lt;&gt;(vets, pageable, total);</span>
 	}
 
 	private Set&lt;Specialty&gt; findSpecialtiesByVetId(Integer vetId) {
-<span class="nc" id="L68">		String selectSpecialtiesQuery = &quot;SELECT s.id, s.name FROM specialties s JOIN vet_specialties vs ON s.id = vs.specialty_id WHERE vs.vet_id = ?&quot;;</span>
-<span class="nc" id="L69">		return new HashSet&lt;&gt;(</span>
-<span class="nc" id="L70">				jdbcTemplate.query(selectSpecialtiesQuery, new Object[] { vetId }, new SpecialtyRowMapper()));</span>
+<span class="fc" id="L68">		String selectSpecialtiesQuery = &quot;SELECT s.id, s.name FROM specialties s JOIN vet_specialties vs ON s.id = vs.specialty_id WHERE vs.vet_id = ?&quot;;</span>
+<span class="fc" id="L69">		return new HashSet&lt;&gt;(</span>
+<span class="fc" id="L70">				jdbcTemplate.query(selectSpecialtiesQuery, new Object[] { vetId }, new SpecialtyRowMapper()));</span>
 	}
 
 	private static class VetRowMapper implements RowMapper&lt;Vet&gt; {
 
 		@Override
 		public Vet mapRow(ResultSet rs, int rowNum) throws SQLException {
-<span class="nc" id="L77">			Vet vet = new Vet();</span>
-<span class="nc" id="L78">			vet.setId(rs.getInt(&quot;id&quot;));</span>
-<span class="nc" id="L79">			vet.setFirstName(rs.getString(&quot;first_name&quot;));</span>
-<span class="nc" id="L80">			vet.setLastName(rs.getString(&quot;last_name&quot;));</span>
+<span class="fc" id="L77">			Vet vet = new Vet();</span>
+<span class="fc" id="L78">			vet.setId(rs.getInt(&quot;id&quot;));</span>
+<span class="fc" id="L79">			vet.setFirstName(rs.getString(&quot;first_name&quot;));</span>
+<span class="fc" id="L80">			vet.setLastName(rs.getString(&quot;last_name&quot;));</span>
 			// Mapear outras propriedades, se necessário
-<span class="nc" id="L82">			return vet;</span>
+<span class="fc" id="L82">			return vet;</span>
 		}
 
 	}
@@ -88,10 +88,10 @@ public class VetRepositoryImpl implements VetRepository {
 
 		@Override
 		public Specialty mapRow(ResultSet rs, int rowNum) throws SQLException {
-<span class="nc" id="L91">			Specialty specialty = new Specialty();</span>
-<span class="nc" id="L92">			specialty.setId(rs.getInt(&quot;id&quot;));</span>
-<span class="nc" id="L93">			specialty.setName(rs.getString(&quot;name&quot;));</span>
-<span class="nc" id="L94">			return specialty;</span>
+<span class="fc" id="L91">			Specialty specialty = new Specialty();</span>
+<span class="fc" id="L92">			specialty.setId(rs.getInt(&quot;id&quot;));</span>
+<span class="fc" id="L93">			specialty.setName(rs.getString(&quot;name&quot;));</span>
+<span class="fc" id="L94">			return specialty;</span>
 		}
 
 	}

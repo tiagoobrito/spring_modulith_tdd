@@ -33,15 +33,15 @@ public class PetController {
 
 	@ModelAttribute(&quot;types&quot;)
 	public Collection&lt;PetType&gt; populatePetTypes() {
-<span class="nc" id="L36">		return this.petExternalAPI.findPetTypes();</span>
+<span class="fc" id="L36">		return this.petExternalAPI.findPetTypes();</span>
 	}
 
 	@ModelAttribute(&quot;pet1&quot;)
 	public Pet findPet(@PathVariable(name = &quot;petId&quot;, required = false) Integer petId) {
-<span class="nc bnc" id="L41" title="All 2 branches missed.">		if (petId == null) {</span>
-<span class="nc" id="L42">			return new Pet();</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">		if (petId == null) {</span>
+<span class="fc" id="L42">			return new Pet();</span>
 		}
-<span class="nc" id="L44">		return petExternalAPI.getPetById(petId);</span>
+<span class="fc" id="L44">		return petExternalAPI.getPetById(petId);</span>
 	}
 
 	@InitBinder(&quot;owner&quot;)
@@ -52,9 +52,9 @@ public class PetController {
 	@GetMapping(&quot;/pets/new&quot;)
 	@Operation(summary = &quot;Initiate Pet Creation Form&quot;)
 	public String initCreationForm(ModelMap model) {
-<span class="nc" id="L55">		Pet pet = new Pet();</span>
-<span class="nc" id="L56">		model.put(&quot;pet&quot;, pet);</span>
-<span class="nc" id="L57">		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;</span>
+<span class="fc" id="L55">		Pet pet = new Pet();</span>
+<span class="fc" id="L56">		model.put(&quot;pet&quot;, pet);</span>
+<span class="fc" id="L57">		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;</span>
 	}
 
 	@PostMapping(&quot;/pets/new&quot;)
@@ -62,30 +62,30 @@ public class PetController {
 	public String processCreationForm(@PathVariable(&quot;ownerId&quot;) int ownerId, @Valid Pet pet, BindingResult result,
 			ModelMap model, RedirectAttributes redirectAttributes) {
 
-<span class="nc" id="L65">		LocalDate currentDate = LocalDate.now();</span>
-<span class="nc bnc" id="L66" title="All 4 branches missed.">		if (pet.getBirthDate() == null || pet.getBirthDate().isAfter(currentDate)) {</span>
-<span class="nc" id="L67">			result.rejectValue(&quot;birthDate&quot;, &quot;typeMismatch.birthDate&quot;);</span>
+<span class="fc" id="L65">		LocalDate currentDate = LocalDate.now();</span>
+<span class="pc bpc" id="L66" title="1 of 4 branches missed.">		if (pet.getBirthDate() == null || pet.getBirthDate().isAfter(currentDate)) {</span>
+<span class="fc" id="L67">			result.rejectValue(&quot;birthDate&quot;, &quot;typeMismatch.birthDate&quot;);</span>
 		}
 
-<span class="nc bnc" id="L70" title="All 2 branches missed.">		if (result.hasErrors()) {</span>
-<span class="nc" id="L71">			model.put(&quot;pet&quot;, pet);</span>
-<span class="nc" id="L72">			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">		if (result.hasErrors()) {</span>
+<span class="fc" id="L71">			model.put(&quot;pet&quot;, pet);</span>
+<span class="fc" id="L72">			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;</span>
 		}
 
-<span class="nc" id="L75">		pet.setOwner_id(ownerId);</span>
+<span class="fc" id="L75">		pet.setOwner_id(ownerId);</span>
 
-<span class="nc" id="L77">		petExternalAPI.save(pet);</span>
-<span class="nc" id="L78">		redirectAttributes.addFlashAttribute(&quot;message&quot;, &quot;New Pet has been Added&quot;);</span>
-<span class="nc" id="L79">		return &quot;redirect:/owners/{ownerId}&quot;;</span>
+<span class="fc" id="L77">		petExternalAPI.save(pet);</span>
+<span class="fc" id="L78">		redirectAttributes.addFlashAttribute(&quot;message&quot;, &quot;New Pet has been Added&quot;);</span>
+<span class="fc" id="L79">		return &quot;redirect:/owners/{ownerId}&quot;;</span>
 	}
 
 	@GetMapping(&quot;/pets/{petId}/edit&quot;)
 	@Operation(summary = &quot;Initiate Pet Update Form&quot;)
 	public String initUpdateForm(@PathVariable(&quot;petId&quot;) int petId, ModelMap model,
 			RedirectAttributes redirectAttributes) {
-<span class="nc" id="L86">		Pet pet = petExternalAPI.getPetById(petId);</span>
-<span class="nc" id="L87">		model.put(&quot;pet&quot;, pet);</span>
-<span class="nc" id="L88">		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;</span>
+<span class="fc" id="L86">		Pet pet = petExternalAPI.getPetById(petId);</span>
+<span class="fc" id="L87">		model.put(&quot;pet&quot;, pet);</span>
+<span class="fc" id="L88">		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;</span>
 	}
 
 	@PostMapping(&quot;/pets/{petId}/edit&quot;)
@@ -93,20 +93,20 @@ public class PetController {
 	public String processUpdateForm(@PathVariable(&quot;ownerId&quot;) int ownerId, @Valid Pet pet, BindingResult result,
 			ModelMap model, RedirectAttributes redirectAttributes) {
 
-<span class="nc bnc" id="L96" title="All 4 branches missed.">		if (pet.getBirthDate() != null &amp;&amp; pet.getBirthDate().isAfter(LocalDate.now())) {</span>
-<span class="nc" id="L97">			result.rejectValue(&quot;birthDate&quot;, &quot;typeMismatch.birthDate&quot;);</span>
+<span class="pc bpc" id="L96" title="1 of 4 branches missed.">		if (pet.getBirthDate() != null &amp;&amp; pet.getBirthDate().isAfter(LocalDate.now())) {</span>
+<span class="fc" id="L97">			result.rejectValue(&quot;birthDate&quot;, &quot;typeMismatch.birthDate&quot;);</span>
 		}
 
-<span class="nc bnc" id="L100" title="All 2 branches missed.">		if (result.hasErrors()) {</span>
-<span class="nc" id="L101">			model.put(&quot;pet&quot;, pet);</span>
-<span class="nc" id="L102">			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">		if (result.hasErrors()) {</span>
+<span class="fc" id="L101">			model.put(&quot;pet&quot;, pet);</span>
+<span class="fc" id="L102">			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;</span>
 		}
 
-<span class="nc" id="L105">		pet.setOwner_id(ownerId);</span>
+<span class="fc" id="L105">		pet.setOwner_id(ownerId);</span>
 
-<span class="nc" id="L107">		petExternalAPI.save(pet);</span>
-<span class="nc" id="L108">		redirectAttributes.addFlashAttribute(&quot;message&quot;, &quot;Pet details has been edited&quot;);</span>
-<span class="nc" id="L109">		return &quot;redirect:/owners/{ownerId}&quot;;</span>
+<span class="fc" id="L107">		petExternalAPI.save(pet);</span>
+<span class="fc" id="L108">		redirectAttributes.addFlashAttribute(&quot;message&quot;, &quot;Pet details has been edited&quot;);</span>
+<span class="fc" id="L109">		return &quot;redirect:/owners/{ownerId}&quot;;</span>
 	}
 
 }

@@ -44,7 +44,7 @@ public class PetManagement implements PetExternalAPI {
 	@Override
 	@Transactional
 	public void save(Pet pet) {
-<span class="pc bpc" id="L47" title="1 of 2 branches missed.">		boolean isNew = (pet.getId() == null);</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">		boolean isNew = (pet.getId() == null);</span>
 <span class="fc" id="L48">		petRepository.save(pet, isNew);</span>
 <span class="fc" id="L49">		events.publishEvent(new SavePetEvent(pet.getId(), pet.getName(), pet.getBirthDate(), pet.getType().getId(),</span>
 <span class="fc" id="L50">				pet.getType().getName(), pet.getOwner_id(), isNew));</span>

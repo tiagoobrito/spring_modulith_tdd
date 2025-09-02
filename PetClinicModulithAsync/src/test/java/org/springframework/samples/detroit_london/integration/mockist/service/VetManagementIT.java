@@ -25,45 +25,46 @@ import static org.mockito.Mockito.verify;
 @Transactional
 class VetManagementIT {
 
-    @Autowired
-    VetManagement service;
+	@Autowired
+	VetManagement service;
 
-    @SpyBean
-    VetRepositoryImpl vetRepository;
+	@SpyBean
+	VetRepositoryImpl vetRepository;
 
-    @Test
-    void findAll_pageable_delegates_to_repository_and_returns_page() {
-        Pageable pageable = PageRequest.of(0, 3);
+	@Test
+	void findAll_pageable_delegates_to_repository_and_returns_page() {
+		Pageable pageable = PageRequest.of(0, 3);
 
-        Page<Vet> page = service.findAll(pageable);
+		Page<Vet> page = service.findAll(pageable);
 
-        assertThat(page).isNotNull();
-        assertThat(page.getSize()).isEqualTo(3);
-        assertThat(page.getContent()).isNotEmpty();
+		assertThat(page).isNotNull();
+		assertThat(page.getSize()).isEqualTo(3);
+		assertThat(page.getContent()).isNotEmpty();
 
-        Vet any = page.getContent().getFirst();
-        assertThat(any.getId()).isNotNull();
-        assertThat(any.getFirstName()).isNotBlank();
-        assertThat(any.getLastName()).isNotBlank();
-        assertThat(any.getSpecialties()).isNotNull();
+		Vet any = page.getContent().getFirst();
+		assertThat(any.getId()).isNotNull();
+		assertThat(any.getFirstName()).isNotBlank();
+		assertThat(any.getLastName()).isNotBlank();
+		assertThat(any.getSpecialties()).isNotNull();
 
-        verify(vetRepository, times(1)).findAll(pageable);
-    }
+		verify(vetRepository, times(1)).findAll(pageable);
+	}
 
-    @Test
-    void findAll_collection_delegates_to_repository_and_returns_list() {
-        Collection<Vet> vets = service.findAll();
+	@Test
+	void findAll_collection_delegates_to_repository_and_returns_list() {
+		Collection<Vet> vets = service.findAll();
 
-        assertThat(vets).isNotNull();
-        assertThat(vets).isNotEmpty();
-        assertThat(vets.size()).isEqualTo(6);
+		assertThat(vets).isNotNull();
+		assertThat(vets).isNotEmpty();
+		assertThat(vets.size()).isEqualTo(6);
 
-        Vet first = vets.iterator().next();
-        assertThat(first.getId()).isNotNull();
-        assertThat(first.getFirstName()).isNotBlank();
-        assertThat(first.getLastName()).isNotBlank();
-        assertThat(first.getSpecialties()).isNotNull();
+		Vet first = vets.iterator().next();
+		assertThat(first.getId()).isNotNull();
+		assertThat(first.getFirstName()).isNotBlank();
+		assertThat(first.getLastName()).isNotBlank();
+		assertThat(first.getSpecialties()).isNotNull();
 
-        verify(vetRepository, times(1)).findAll();
-    }
+		verify(vetRepository, times(1)).findAll();
+	}
+
 }

@@ -1,0 +1,85 @@
+<?xml version="1.0" ?>
+<ns2:softwareSystem xmlns:ns2="https://www.hello2morrow.com/sonargraph/core"
+                    xmlns:ns4="https://www.hello2morrow.com/sonargraph/languageprovider/java"
+                    xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+                    id="org.springframework.samples_PetClinicModulithAsync"
+                    version="15.4.0.148">
+
+  <!-- MAIN (production) module -->
+  <module xsi:type="ns4:xsdJavaModule"
+          name="PetClinicModulithAsync-Main"
+          id="org.springframework.samples_PetClinicModulithAsync.main"
+          language="Java">
+    <description>Main sources + compiled classes</description>
+    <!-- compiled classes so test modules can resolve symbols -->
+    <rootPath name="./target/classes"/>
+    <rootPath xsi:type="ns4:xsdSourceRootPath" name="./src/main/java"/>
+    <!-- (optional) generated sources if you have them -->
+    <rootPath xsi:type="ns4:xsdSourceRootPath" name="./target/generated-sources/annotations"/>
+  </module>
+
+  <!-- DETROIT / CLASSICIST - unitary tests module -->
+  <module xsi:type="ns4:xsdJavaModule"
+          name="PetClinicModulithAsync-Tests-Detroit-Unitary"
+          id="org.springframework.samples_PetClinicModulithAsync.tests.detroit.unitary"
+          language="Java">
+    <description>Detroit / Classicist unitary tests only</description>
+
+    <!-- Narrow the test root to the exact subtree -->
+    <rootPath xsi:type="ns4:xsdSourceRootPath"
+              name="./src/test/java/org/springframework/samples/detroit_london/unitary/classicist"/>
+
+    <!-- compiled test classes (helps type resolution) -->
+    <rootPath name="./target/test-classes"/>
+
+    <!-- also expose main compiled classes so tests can resolve app types -->
+    <rootPath name="./target/classes"/>
+  </module>
+
+  <!-- DETROIT / CLASSICIST - integration tests module -->
+  <module xsi:type="ns4:xsdJavaModule"
+          name="PetClinicModulithAsync-Tests-Detroit-Integration"
+          id="org.springframework.samples_PetClinicModulithAsync.tests.detroit.integration"
+          language="Java">
+    <description>Detroit / Classicist integration tests only</description>
+
+    <!-- Narrow the test root to the exact subtree -->
+    <rootPath xsi:type="ns4:xsdSourceRootPath"
+              name="./src/test/java/org/springframework/samples/detroit_london/integration/classicist"/>
+
+    <!-- compiled test classes (helps type resolution) -->
+    <rootPath name="./target/test-classes"/>
+
+    <!-- also expose main compiled classes so tests can resolve app types -->
+    <rootPath name="./target/classes"/>
+  </module>
+
+  <!-- LONDON / MOCKIST - unitary tests module -->
+  <module xsi:type="ns4:xsdJavaModule"
+          name="PetClinicModulithAsync-Tests-London-Unitary"
+          id="org.springframework.samples_PetClinicModulithAsync.tests.london.unitary"
+          language="Java">
+    <description>London / Mockist unitary tests only</description>
+
+    <rootPath xsi:type="ns4:xsdSourceRootPath"
+              name="./src/test/java/org/springframework/samples/detroit_london/unitary/mockist"/>
+
+    <rootPath name="./target/test-classes"/>
+    <rootPath name="./target/classes"/>
+  </module>
+
+  <!-- LONDON / MOCKIST - integration tests module -->
+  <module xsi:type="ns4:xsdJavaModule"
+          name="PetClinicModulithAsync-Tests-London-Integration"
+          id="org.springframework.samples_PetClinicModulithAsync.tests.london.integration"
+          language="Java">
+    <description>London / Mockist integration tests only</description>
+
+    <rootPath xsi:type="ns4:xsdSourceRootPath"
+           name="./src/test/java/org/springframework/samples/detroit_london/integration/mockist"/>
+
+    <rootPath name="./target/test-classes"/>
+    <rootPath name="./target/classes"/>
+  </module>
+
+</ns2:softwareSystem>

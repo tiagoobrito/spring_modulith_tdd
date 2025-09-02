@@ -36,17 +36,17 @@ public class PetTypeFormatter implements Formatter&lt;PetType&gt; {
 
 	@Override
 	public String print(PetType petType, Locale locale) {
-<span class="nc" id="L39">		return petType.getName();</span>
+<span class="fc" id="L39">		return petType.getName();</span>
 	}
 
 	@Override
 	public PetType parse(String text, Locale locale) throws ParseException {
-<span class="nc" id="L44">		Collection&lt;PetType&gt; findPetTypes = this.petTypes.findPetTypes();</span>
-<span class="nc bnc" id="L45" title="All 2 branches missed.">		for (PetType type : findPetTypes) {</span>
-<span class="nc bnc" id="L46" title="All 2 branches missed.">			if (type.getName().equals(text)) {</span>
-<span class="nc" id="L47">				return type;</span>
+<span class="fc" id="L44">		Collection&lt;PetType&gt; findPetTypes = this.petTypes.findPetTypes();</span>
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">		for (PetType type : findPetTypes) {</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">			if (type.getName().equals(text)) {</span>
+<span class="fc" id="L47">				return type;</span>
 			}
-<span class="nc" id="L49">		}</span>
+<span class="fc" id="L49">		}</span>
 <span class="nc" id="L50">		throw new ParseException(&quot;type not found: &quot; + text, 0);</span>
 	}
 

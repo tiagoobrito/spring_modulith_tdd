@@ -3,18 +3,18 @@
 import java.time.LocalDate;
 
 /** Fluent builder for Visit test data. */
-<span class="nc" id="L6">public class VisitBuilder {</span>
+<span class="fc" id="L6">public class VisitBuilder {</span>
 
 	private Integer id;
 
-<span class="nc" id="L10">	private LocalDate date = LocalDate.of(2024, 10, 10);</span>
+<span class="fc" id="L10">	private LocalDate date = LocalDate.of(2024, 10, 10);</span>
 
-<span class="nc" id="L12">	private String description = &quot;Checkup&quot;;</span>
+<span class="fc" id="L12">	private String description = &quot;Checkup&quot;;</span>
 
-<span class="nc" id="L14">	private Integer pet_id = 10;</span>
+<span class="fc" id="L14">	private Integer pet_id = 10;</span>
 
 	public static VisitBuilder aVisit() {
-<span class="nc" id="L17">		return new VisitBuilder();</span>
+<span class="fc" id="L17">		return new VisitBuilder();</span>
 	}
 
 	public VisitBuilder withId(Integer id) {
@@ -38,12 +38,12 @@ import java.time.LocalDate;
 	}
 
 	public Visit build() {
-<span class="nc" id="L41">		Visit v = new Visit();</span>
-<span class="nc" id="L42">		v.setId(id);</span>
-<span class="nc" id="L43">		v.setDate(date);</span>
-<span class="nc" id="L44">		v.setDescription(description);</span>
-<span class="nc" id="L45">		v.setPet_id(pet_id);</span>
-<span class="nc" id="L46">		return v;</span>
+<span class="fc" id="L41">		Visit v = new Visit();</span>
+<span class="fc" id="L42">		v.setId(id);</span>
+<span class="fc" id="L43">		v.setDate(date);</span>
+<span class="fc" id="L44">		v.setDescription(description);</span>
+<span class="fc" id="L45">		v.setPet_id(pet_id);</span>
+<span class="fc" id="L46">		return v;</span>
 	}
 
 }
