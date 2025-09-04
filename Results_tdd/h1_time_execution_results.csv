@@ -1,0 +1,5 @@
+medida,n_execucoes,media_Detroit,media_London,media_razao_LonDet,desvio_padrao_razao,t_stat,p_value,alpha,threshold_razao,decisao_(H0: mean<=threshold vs H1: mean>threshold)
+Unitários (Test Cases),10,0.3344,1.6613999999999998,4.9697450614187435,0.09698188545331464,,,0.05,1.4,Rejeita H0
+Unitários (Classes),10,0.3794,1.7049999999999996,4.494348241222468,0.04951537650619903,,,0.05,1.4,Rejeita H0
+Integração (Test Cases),10,1.2529999999999997,1.108,0.8843668206934623,0.01993048191592983,,,0.05,1.4,Não rejeita H0
+Integração (Classes),10,8.506,13.9488,1.6410754139815693,0.04932045682835208,,,0.05,1.4,Rejeita H0
